@@ -1,18 +1,41 @@
-import React from 'react';
 import { 
   View, 
   Text, 
-  TextInput, 
   ScrollView, 
-  StyleSheet, 
   TouchableOpacity, 
   Image,
   StatusBar,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { homeScreenStyles as styles } from '../styles/homeScreenStyle';
 
 export default function HomeScreen() {
+  const handleProfilePress = () => {
+    console.log('Perfil presionado');
+    // Navegacion a perfil
+  };
+
+  const handleMainCardPress = () => {
+    console.log('Solicitar grúa presionado');
+    // Navegacion para solicitar grúa
+  };
+
+  const handleSuggestionPress = (suggestionType) => {
+    console.log(`Sugerencia ${suggestionType} presionada`);
+    // Navegacion a tipo de servicio específico
+  };
+
+  const handlePromotionsPress = () => {
+    console.log('Promociones presionado');
+    // Navegacion a promociones
+  };
+
+  const handleKnowMorePress = () => {
+    console.log('Conoce más presionado');
+    // Navegacion a más información de promociones
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
@@ -20,7 +43,11 @@ export default function HomeScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.brandName}>TOWX</Text>
-        <TouchableOpacity style={styles.profileButton}>
+        <TouchableOpacity 
+          style={styles.profileButton}
+          onPress={handleProfilePress}
+          activeOpacity={0.7}
+        >
           <MaterialCommunityIcons name="account-circle" size={32} color="white" />
         </TouchableOpacity>
       </View>
@@ -38,13 +65,19 @@ export default function HomeScreen() {
             <View style={styles.phoneFrame}>
               <View style={styles.phoneScreen}>
                 <View style={styles.illustrationContent}>
-                  <MaterialCommunityIcons name="tow-truck" size={60} color="#6366f1" />
-                  <Text style={styles.illustrationText}>🚗💨</Text>
+                  <Image 
+                    source={require('../assets/rentalCar.png')} 
+                    style={{ width: 150, height: 100, resizeMode: 'contain' }} 
+                  />
                 </View>
               </View>
               <View style={styles.phoneButton} />
             </View>
-            <TouchableOpacity style={styles.arrowButton}>
+            <TouchableOpacity 
+              style={styles.arrowButton}
+              onPress={handleMainCardPress}
+              activeOpacity={0.8}
+            >
               <MaterialCommunityIcons name="chevron-right" size={24} color="#666" />
             </TouchableOpacity>
           </View>
@@ -58,25 +91,41 @@ export default function HomeScreen() {
 
         {/* Suggestions Section */}
         <View style={styles.suggestionsSection}>
-          <Text style={styles.sectionTitle}>Suggestions</Text>
+          <Text style={styles.sectionTitle}>Sugerencias</Text>
           
           <View style={styles.suggestionsGrid}>
-            <TouchableOpacity style={styles.suggestionCard}>
+            <TouchableOpacity 
+              style={styles.suggestionCard}
+              onPress={() => handleSuggestionPress('Remolque ligero')}
+              activeOpacity={0.8}
+            >
               <MaterialCommunityIcons name="truck" size={32} color="white" />
               <Text style={styles.suggestionText}>Remolque{'\n'}ligero</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.suggestionCard}>
+            <TouchableOpacity 
+              style={styles.suggestionCard}
+              onPress={() => handleSuggestionPress('Transporte vehículo')}
+              activeOpacity={0.8}
+            >
               <MaterialCommunityIcons name="car-side" size={32} color="white" />
               <Text style={styles.suggestionText}>Transporte{'\n'}vehículo</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.suggestionCard}>
+            <TouchableOpacity 
+              style={styles.suggestionCard}
+              onPress={() => handleSuggestionPress('Traslado ciudad')}
+              activeOpacity={0.8}
+            >
               <MaterialCommunityIcons name="car-back" size={32} color="white" />
               <Text style={styles.suggestionText}>Traslado{'\n'}ciudad</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.suggestionCard}>
+            <TouchableOpacity 
+              style={styles.suggestionCard}
+              onPress={() => handleSuggestionPress('Asistencia rápida')}
+              activeOpacity={0.8}
+            >
               <MaterialCommunityIcons name="wrench" size={32} color="white" />
               <Text style={styles.suggestionText}>Asistencia{'\n'}rápida</Text>
             </TouchableOpacity>
@@ -84,191 +133,30 @@ export default function HomeScreen() {
         </View>
 
         {/* Promotions Section */}
-        <TouchableOpacity style={styles.promotionsCard}>
+        <TouchableOpacity 
+          style={styles.promotionsCard}
+          onPress={handlePromotionsPress}
+          activeOpacity={0.8}
+        >
           <View style={styles.promotionsContent}>
             <View style={styles.promotionsText}>
               <Text style={styles.promotionsTitle}>Aprovecha{'\n'}Nuestras{'\n'}Promociones</Text>
-              <TouchableOpacity style={styles.knowMoreButton}>
+              <TouchableOpacity 
+                style={styles.knowMoreButton}
+                onPress={handleKnowMorePress}
+                activeOpacity={0.7}
+              >
                 <Text style={styles.knowMoreText}>Conoce más</Text>
                 <MaterialCommunityIcons name="chevron-right" size={20} color="white" />
               </TouchableOpacity>
             </View>
             <View style={styles.promotionsIcon}>
-              <MaterialCommunityIcons name="tag-multiple" size={60} color="#ff6b6b" />
+                <Image source={require('../assets/twoSale.png')} 
+                style={{ width: 150, height: 150, resizeMode: 'contain' }}/>
             </View>
           </View>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: '#000000',
-  },
-  brandName: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-  },
-  profileButton: {
-    padding: 4,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 100,
-  },
-  mainCard: {
-    backgroundColor: '#1a1a1a',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-    alignItems: 'center',
-  },
-  mainTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  illustrationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  phoneFrame: {
-    backgroundColor: '#2a2a2a',
-    borderRadius: 20,
-    padding: 8,
-    marginRight: 16,
-  },
-  phoneScreen: {
-    backgroundColor: '#3a3a3a',
-    borderRadius: 12,
-    width: 200,
-    height: 120,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  illustrationContent: {
-    alignItems: 'center',
-  },
-  illustrationText: {
-    fontSize: 16,
-    marginTop: 8,
-  },
-  phoneButton: {
-    backgroundColor: '#666',
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    alignSelf: 'center',
-    marginTop: 8,
-  },
-  arrowButton: {
-    backgroundColor: '#2a2a2a',
-    borderRadius: 20,
-    padding: 8,
-  },
-  pagination: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#444',
-  },
-  activeDot: {
-    backgroundColor: 'white',
-  },
-  suggestionsSection: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-  },
-  suggestionsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  suggestionCard: {
-    backgroundColor: '#1a1a1a',
-    borderRadius: 16,
-    padding: 16,
-    width: '48%',
-    alignItems: 'center',
-    minHeight: 100,
-    justifyContent: 'center',
-  },
-  suggestionText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: '500',
-    textAlign: 'center',
-    marginTop: 8,
-    lineHeight: 16,
-  },
-  promotionsCard: {
-    backgroundColor: '#2a2a2a',
-    borderRadius: 16,
-    padding: 20,
-    overflow: 'hidden',
-  },
-  promotionsContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  promotionsText: {
-    flex: 1,
-  },
-  promotionsTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-    lineHeight: 24,
-    marginBottom: 12,
-  },
-  knowMoreButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#333',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    alignSelf: 'flex-start',
-  },
-  knowMoreText: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: '500',
-    marginRight: 4,
-  },
-  promotionsIcon: {
-    marginLeft: 16,
-  },
-});
-
-
+};

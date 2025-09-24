@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import { serviciosScreenStyles as styles } from '../styles/serviciosScreenStyle';
 
 const DATA = [
   { id: '1', image: require('../assets/gruacarro.png'), titulo: 'Convencional', promo: true },
@@ -9,37 +10,55 @@ const DATA = [
 ];
 
 export default function ServiciosScreen() {
+  const handleServicePress = (serviceName) => {
+    console.log(`Servicio ${serviceName} presionado`);
+    // Navegacion a detalles del servicio
+  };
+
+  const handleOrderPress = () => {
+    console.log('Pedir Grua Convencional presionado');
+    // Navegacion para pedir grua
+  };
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#0f0f10' }}>
-      <View style={{ padding: 16 }}>
-        <Text style={{ color: 'white', fontSize: 22, fontWeight: 'bold' }}>Servicios de Grua</Text>
-        <Text style={{ color: '#a0a0a5', marginTop: 4 }}>A tiempo, sin contratiempo</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Servicios de Grua</Text>
+        <Text style={styles.subtitle}>A tiempo, sin contratiempo</Text>
       </View>
 
       <FlatList
         data={DATA}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 120 }}
+        contentContainerStyle={styles.flatListContainer}
         renderItem={({ item }) => (
-          <TouchableOpacity style={{ backgroundColor: '#1a1b1e', padding: 16, borderRadius: 12, marginBottom: 12 }}>
+          <TouchableOpacity 
+            style={styles.serviceCard}
+            onPress={() => handleServicePress(item.titulo)}
+            activeOpacity={0.8}
+          >
             <Image 
-            source={item.image} 
-            style={{ display: 'flex', width: 80, height: 80, marginBottom: 8 }}
-            resizeMode="contain"
+              source={item.image} 
+              style={styles.serviceImage}
+              resizeMode="contain"
             />
-            <Text style={{ color: 'white', fontSize: 16 }}>{item.titulo}</Text>
-            {item.promo ? <Text style={{ color: '#6ee7b7', marginTop: 4 }}>Promo</Text> : null}
+            <Text style={styles.serviceTitle}>{item.titulo}</Text>
+            {item.promo ? <Text style={styles.promoText}>Promo</Text> : null}
           </TouchableOpacity>
         )}
       />
 
-      <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: '#111315', padding: 16, borderTopWidth: 1, borderTopColor: '#2a2b2f' }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
-          <Text style={{ color: 'white' }}>Convencional</Text>
-          <Text style={{ color: 'white' }}>$54.950</Text>
+      <View style={styles.bottomPanel}>
+        <View style={styles.bottomRow}>
+          <Text style={styles.bottomText}>Convencional</Text>
+          <Text style={styles.bottomText}>$54.950</Text>
         </View>
-        <TouchableOpacity style={{ backgroundColor: '#18a558', padding: 14, borderRadius: 10, alignItems: 'center' }}>
-          <Text style={{ color: 'white', fontWeight: 'bold' }}>Pedir Grua Convencional</Text>
+        <TouchableOpacity 
+          style={styles.orderButton}
+          onPress={handleOrderPress}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.orderButtonText}>Pedir Grua Convencional</Text>
         </TouchableOpacity>
       </View>
     </View>
