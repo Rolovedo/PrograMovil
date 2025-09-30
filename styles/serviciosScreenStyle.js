@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const serviciosScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f0f10',
+    backgroundColor: '#000000',
   },
   header: {
     padding: 16,

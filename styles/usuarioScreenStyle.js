@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const usuarioScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2a2a2a',
+    backgroundColor: '#000000',
   },
   scrollView: {
     flex: 1,

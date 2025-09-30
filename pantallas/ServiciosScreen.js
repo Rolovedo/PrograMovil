@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { serviciosScreenStyles as styles } from '../styles/serviciosScreenStyle';
 
 const DATA = [
@@ -21,6 +22,7 @@ export default function ServiciosScreen() {
   };
 
   return (
+    <SafeAreaView style={styles.container}>
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Servicios de Grua</Text>
@@ -62,6 +64,7 @@ export default function ServiciosScreen() {
         </TouchableOpacity>
       </View>
     </View>
+  </SafeAreaView>
   );
 }
 
