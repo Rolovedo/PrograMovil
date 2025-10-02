@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const usuarioScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2a2a2a',
+    backgroundColor: '#000000',
   },
   scrollView: {
     flex: 1,
@@ -133,5 +133,18 @@ export const usuarioScreenStyles = StyleSheet.create({
     color: '#fff',
     marginLeft: 20,
     flex: 1,
+  },
+  // Nuevos estilos que estaban inline
+  promoContentRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  promoTextContainer: {
+    flex: 1,
+  },
+  promotionImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
   },
 });

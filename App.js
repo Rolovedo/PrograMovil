@@ -1,6 +1,5 @@
 import { Text, StyleSheet, Pressable, View, Alert } from 'react-native';
 
-// or any files within the Snack
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './pantallas/HomeScreen';
@@ -9,11 +8,12 @@ import ActividadScreen from './pantallas/ActividadScreen';
 import UsuarioScreen from './pantallas/UsuarioScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+// Importar el contexto
+import { AppProvider } from './context/AppContext';
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
-  
+function AppNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="Inicio"
@@ -37,14 +37,7 @@ export default function App() {
           },
           tabBarActiveTintColor: '#fff',
           tabBarInactiveTintColor: '#888',
-      
-          headerStyle: {
-            backgroundColor: '#000',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',   
-          },
+          headerShown: false,
         })}
       >
         <Tab.Screen name="Inicio" component={HomeScreen} options={{ title: 'Inicio' }} />
@@ -54,4 +47,12 @@ export default function App() {
       </Tab.Navigator>
     </NavigationContainer>
   );
-};
+}
+
+export default function App() {
+  return (
+    <AppProvider>
+      <AppNavigator />
+    </AppProvider>
+  );
+}
