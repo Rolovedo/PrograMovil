@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { homeScreenStyles as styles } from '../styles/homeScreenStyle';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const handleProfilePress = () => {
     console.log('Perfil presionado');
     // Navegacion a perfil
@@ -19,11 +19,17 @@ export default function HomeScreen() {
   const handleMainCardPress = () => {
     console.log('Solicitar grúa presionado');
     // Navegacion para solicitar grúa
+    navigation.navigate('RequestTowScreen', {
+      serviceType: 'Servicio de Grúa'
+    });
   };
 
   const handleSuggestionPress = (suggestionType) => {
     console.log(`Sugerencia ${suggestionType} presionada`);
     // Navegacion a tipo de servicio específico
+    navigation.navigate('RequestTowScreen', {
+      serviceType: suggestionType
+    });
   };
 
   const handlePromotionsPress = () => {
