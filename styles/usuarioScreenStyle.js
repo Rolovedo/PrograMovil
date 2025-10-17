@@ -147,4 +147,22 @@ export const usuarioScreenStyles = StyleSheet.create({
     height: 100,
     resizeMode: 'contain',
   },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 107, 53, 0.1)',
+    marginHorizontal: 20,
+    marginVertical: 20,
+    paddingVertical: 15,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#FF6B35',
+  },
+  logoutButtonText: {
+    fontSize: 16,
+    color: '#FF6B35',
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
 });

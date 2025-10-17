@@ -9,6 +9,7 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { homeScreenStyles as styles } from '../styles/homeScreenStyle';
+import { SupabaseConnectionTest } from '../components/SupabaseConnectionTest';
 
 export default function HomeScreen({ navigation }) {
   const handleProfilePress = () => {
@@ -45,6 +46,9 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
+      
+      {/* Componente de prueba de Supabase */}
+      <SupabaseConnectionTest />
       
       {/* Header */}
       <View style={styles.header}>

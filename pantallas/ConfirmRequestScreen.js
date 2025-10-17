@@ -40,7 +40,7 @@ export default function ConfirmRequestScreen({ navigation, route }) {
     setIsCreating(true);
     
     try {
-      // Crear la solicitud en Firebase
+      // Crear la solicitud en Supabase
       const requestResult = await createRequest(formData, serviceType, towType, urgency, price);
       
       // Navegar a TrackTowScreen con el ID de la solicitud

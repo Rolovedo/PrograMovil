@@ -9,6 +9,7 @@ import ActionButtons from '../components/user/ActionButtons';
 import PromoSection from '../components/user/PromoSection';
 import MenuOptions from '../components/user/MenuOptions';
 import SelectedService from '../components/user/SelectedService';
+import LogoutButton from '../components/user/LogoutButton';
 
 //importamos el hook personalizado
 import { useUsuarioActions } from '../hooks/useUsuarioActions';
@@ -53,6 +54,8 @@ export default function UsuarioScreen() {
         />
 
         <SelectedService styles={styles} />
+        
+        <LogoutButton styles={styles} />
         
       </ScrollView>
     </SafeAreaView>
