@@ -2,6 +2,8 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform } from 'react-native';
 
 // Importar pantallas
 import HomeScreen from '../pantallas/HomeScreen';
@@ -33,6 +35,11 @@ function HomeStack() {
 
 // Navegador principal con tabs
 export default function AppStack() {
+  const insets = useSafeAreaInsets();
+  
+  // ✅ Calcular altura total de la barra de navegación
+  const tabBarHeight = Platform.OS === 'android' ? 60 + insets.bottom + 5 : 65;
+
   return (
     <Tab.Navigator 
       initialRouteName="Inicio"
@@ -52,21 +59,25 @@ export default function AppStack() {
 
           return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#FF6B35',
+        tabBarActiveTintColor: '#ffffffff',
         tabBarInactiveTintColor: '#666666',
         tabBarStyle: {
           backgroundColor: '#1A1A1A',
           borderTopColor: '#333333',
           borderTopWidth: 1,
-          height: 60,
-          paddingBottom: 5,
+          height: tabBarHeight,
+          paddingBottom: Platform.OS === 'android' ? insets.bottom + 5 : 5,
           paddingTop: 5,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: 'bold',
+          marginBottom: Platform.OS === 'android' ? 2 : 0,
         },
         headerShown: false,
+        contentStyle: {
+          paddingBottom: 0, // El tab navigator ya maneja esto
+        },
       })}
     >
       <Tab.Screen 

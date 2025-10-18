@@ -171,4 +171,38 @@ export const actividadScreenStyles = StyleSheet.create({
     color: '#fff',
     marginLeft: 6,
   },
+  // Nuevos estilos para el contexto
+  serviceType: {
+    fontSize: 12,
+    color: '#4CAF50',
+    marginTop: 4,
+    fontStyle: 'italic',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#ccc',
+    marginTop: 4,
+  },
+  selectedServiceHint: {
+    fontSize: 12,
+    color: '#4CAF50',
+    marginTop: 8,
+    fontStyle: 'italic',
+  },
+  serviceUser: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
+  },
+  selectedServiceIndicator: {
+    fontSize: 12,
+    color: '#4CAF50',
+    marginTop: 4,
+    fontWeight: 'bold',
+  },
+  // Estilo para estado de carga
+  loadingText: {
+    color: '#FFD700',
+    fontWeight: 'bold',
+  },
 });

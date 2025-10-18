@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAppContext } from '../../context/AppContext';
+import { useAuth } from '../../contexts/AuthContext';
 
-export default function UserHeader({ onBackPress, onAvatarPress, styles }) {
+export default function UserHeader({ onBackPress, styles }) {
   const { user } = useAppContext();
+  const { logout } = useAuth(); // Para manejar logout si es necesario
 
   return (
     <View style={styles.header}>
@@ -17,16 +19,20 @@ export default function UserHeader({ onBackPress, onAvatarPress, styles }) {
       </TouchableOpacity>
       
       <View style={styles.userInfo}>
+        {/* ✅ Usar el primer nombre del usuario autenticado */}
         <Text style={styles.title}>{user.name}</Text>
         <View style={styles.rating}>
           <MaterialCommunityIcons name="star" size={16} color="#FFD700" />
           <Text style={styles.ratingText}>{user.rating}</Text>
         </View>
+        {/* Mostrar email si está disponible */}
+        {user.email && (
+          <Text style={styles.email}>{user.email}</Text>
+        )}
       </View>
 
       <TouchableOpacity 
         style={styles.avatar}
-        onPress={onAvatarPress}
         activeOpacity={0.8}
       >
         <MaterialCommunityIcons 
