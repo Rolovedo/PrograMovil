@@ -69,4 +69,24 @@ export const serviciosScreenStyles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  selectedIndicator: {
+    fontSize: 12,
+    color: '#4CAF50',
+    fontWeight: 'bold',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  userInfo: {
+    fontSize: 12,
+    color: '#999',
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  selectedServiceInfo: {
+    fontSize: 12,
+    color: '#4CAF50',
+    textAlign: 'center',
+    marginBottom: 5,
+    fontStyle: 'italic',
+  },
 });

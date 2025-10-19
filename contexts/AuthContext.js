@@ -12,19 +12,36 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // usuario de auth
-  const [profile, setProfile] = useState(null); // datos de la tabla users
+  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
 
-  // ✅ Obtener sesión inicial y escuchar cambios
   useEffect(() => {
     const initSession = async () => {
       const { data, error } = await supabase.auth.getSession();
-      if (error) console.error('Error obteniendo sesión inicial:', error);
-      else {
-        setSession(data.session);
-        setUser(data.session?.user ?? null);
+      if (error) {
+        console.error('Error obteniendo sesión inicial:', error);
+        setUser(null);
+        setProfile(null);
+        setSession(null);
+      } else if (data.session?.user && !isRegistering) {
+        const profileExists = await validateUserProfile(data.session.user.id);
+        if (profileExists) {
+          setSession(data.session);
+          setUser(data.session.user);
+        } else {
+          console.log('🚫 Usuario sin perfil válido, cerrando sesión...');
+          await supabase.auth.signOut();
+          setUser(null);
+          setProfile(null);
+          setSession(null);
+        }
+      } else {
+        setUser(null);
+        setProfile(null);
+        setSession(null);
       }
       setLoading(false);
     };
@@ -34,16 +51,63 @@ export const AuthProvider = ({ children }) => {
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('🔄 Auth event:', event);
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) await fetchUserProfile(session.user.id);
+        
+        if (event === 'SIGNED_IN' && session?.user && !isRegistering) {
+          const profileExists = await validateUserProfile(session.user.id);
+          if (profileExists) {
+            setSession(session);
+            setUser(session.user);
+          } else {
+            console.log('🚫 Login rechazado: usuario sin perfil válido');
+            await supabase.auth.signOut();
+            setUser(null);
+            setProfile(null);
+            setSession(null);
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+          setIsRegistering(false);
+        } else if (event === 'SIGNED_UP') {
+          console.log('✅ Usuario registrado, preparando logout...');
+        }
       }
     );
 
     return () => listener.subscription.unsubscribe();
-  }, []);
+  }, [isRegistering]);
 
-  // ✅ Cargar perfil extendido desde tabla users
+  const validateUserProfile = async (userId) => {
+    try {
+      console.log('🔍 Validando perfil para userId:', userId);
+      
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error('❌ Error obteniendo perfil:', error.message);
+        return false;
+      }
+
+      if (!data) {
+        console.error('❌ No se encontró perfil para el usuario');
+        return false;
+      }
+
+      console.log('✅ Perfil encontrado:', data);
+      setProfile(data);
+      return true;
+      
+    } catch (error) {
+      console.error('❌ Error inesperado validando perfil:', error);
+      return false;
+    }
+  };
+
   const fetchUserProfile = async (userId) => {
     try {
       const { data, error } = await supabase
@@ -52,19 +116,21 @@ export const AuthProvider = ({ children }) => {
         .eq('id', userId)
         .single();
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error obteniendo perfil:', error.message);
-      } else {
-        setProfile(data);
+      if (error) {
+        console.error('❌ Error obteniendo perfil:', error.message);
+        return null;
       }
+      
+      setProfile(data);
+      return data;
     } catch (error) {
-      console.error('Error inesperado en fetchUserProfile:', error);
+      console.error('❌ Error inesperado en fetchUserProfile:', error);
+      return null;
     }
   };
 
-  // ✅ Registrar usuario (Auth + tabla users)
   const signUp = async (email, password, userData) => {
-    const { full_name, phone, role = 'user' } = userData;
+    const { full_name, phone, role = 'client' } = userData;
     
     console.log('=================================');
     console.log('🟢 INICIANDO SIGNUP');
@@ -74,8 +140,8 @@ export const AuthProvider = ({ children }) => {
   
     try {
       setLoading(true);
+      setIsRegistering(true);
       
-      // PASO 1: Crear usuario en Auth
       console.log('📝 PASO 1: Llamando a supabase.auth.signUp...');
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -100,7 +166,6 @@ export const AuthProvider = ({ children }) => {
       console.log('✅ PASO 1 COMPLETADO - User ID:', user.id);
       console.log('=================================');
   
-      // PASO 2: Crear registro en tabla users
       console.log('📝 PASO 2: Insertando en tabla users...');
       
       const profileData = {
@@ -122,13 +187,19 @@ export const AuthProvider = ({ children }) => {
   
       if (insertError) {
         console.error('❌ ERROR EN INSERT:', insertError);
-        console.error('Código de error:', insertError.code);
-        console.error('Mensaje:', insertError.message);
-        console.error('Detalles:', insertError.details);
+        
+        try {
+          await supabase.auth.admin.deleteUser(user.id);
+          console.log('🗑️ Usuario de auth eliminado debido a error en perfil');
+        } catch (deleteError) {
+          console.error('❌ Error eliminando usuario de auth:', deleteError);
+        }
+        
         throw new Error(`Error al crear perfil: ${insertError.message}`);
       }
   
       console.log('✅ PASO 2 COMPLETADO');
+      
       console.log('=================================');
       console.log('✅✅✅ REGISTRO COMPLETO EXITOSO');
       console.log('=================================');
@@ -148,10 +219,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ✅ Iniciar sesión
+  // ✅ MODIFICADO: Login sin mostrar errores de credenciales inválidas
   const signIn = async (email, password) => {
     try {
       setLoading(true);
+      setIsRegistering(false);
       console.log('🔐 Iniciando sesión para:', email);
 
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -159,22 +231,45 @@ export const AuthProvider = ({ children }) => {
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        // ✅ Solo mostrar error en consola si NO es credenciales inválidas
+        if (error.message !== 'Invalid login credentials') {
+          console.error('❌ Error en auth:', error.message);
+        }
+        throw error;
+      }
 
       const user = data.user;
-      await fetchUserProfile(user.id);
+      console.log('✅ Auth exitoso, validando perfil...');
 
-      console.log('✅ Sesión iniciada');
+      const profileExists = await validateUserProfile(user.id);
+      
+      if (!profileExists) {
+        console.log('🚫 Login rechazado: usuario sin perfil en la tabla users');
+        await supabase.auth.signOut();
+        throw new Error('Tu cuenta no está completamente configurada. Contacta al administrador.');
+      }
+
+      console.log('✅ Login exitoso con perfil válido');
       return { success: true, user };
+      
     } catch (error) {
-      console.error('❌ Error en signIn:', error.message);
+      // ✅ Solo mostrar error en consola si NO es credenciales inválidas
+      if (error.message !== 'Invalid login credentials') {
+        console.error('❌ Error en signIn:', error.message);
+      }
+      
+      // ✅ Retornar mensaje amigable para credenciales inválidas
+      if (error.message === 'Invalid login credentials') {
+        return { success: false, error: 'Usuario o contraseña incorrectos' };
+      }
+      
       return { success: false, error: error.message };
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Cerrar sesión
   const signOut = async () => {
     try {
       setLoading(true);
@@ -184,6 +279,8 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setProfile(null);
       setSession(null);
+      setIsRegistering(false);
+      return { success: true };
     } catch (error) {
       console.error('❌ Error en signOut:', error.message);
       return { success: false, error: error.message };
@@ -193,8 +290,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    user,       // usuario de auth
-    profile,    // datos extendidos
+    user,
+    profile,
     session,
     loading,
     signIn,

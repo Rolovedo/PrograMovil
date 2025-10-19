@@ -1,39 +1,35 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View } from 'react-native';
+import { loadingScreenStyles as styles } from '../styles/loadingScreenStyle';
 
-export default function LoadingScreen() {
+// Importar componentes modulares
+import LoadingIcon from '../components/loading/LoadingIcon';
+import LoadingText from '../components/loading/LoadingText';
+import LoadingSpinner from '../components/loading/LoadingSpinner';
+
+// Importar hook personalizado
+import { useLoadingScreen } from '../hooks/useLoadingScreen';
+
+export default function LoadingScreen({ loadingType = 'auth' }) {
+  // Obtener mensajes del hook
+  const { getLoadingType } = useLoadingScreen();
+  const { title, subtitle } = getLoadingType(loadingType);
+
   return (
     <View style={styles.container}>
-      <MaterialCommunityIcons name="car-tow" size={80} color="#FF6B35" />
-      <Text style={styles.title}>Cargando...</Text>
-      <ActivityIndicator size="large" color="#FF6B35" style={styles.loader} />
-      <Text style={styles.subtitle}>Verificando tu sesión</Text>
+      <View style={styles.loadingContainer}>
+        
+        <LoadingIcon styles={styles} />
+        
+        <LoadingText 
+          title={title}
+          subtitle={subtitle}
+          styles={styles}
+        />
+        
+        <LoadingSpinner styles={styles} />
+        
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  loader: {
-    marginVertical: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#CCCCCC',
-    textAlign: 'center',
-  },
-});
