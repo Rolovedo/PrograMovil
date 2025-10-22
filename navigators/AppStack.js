@@ -15,6 +15,10 @@ import TowCompletedScreen from '../pantallas/TowCompletedScreen';
 import UsuarioScreen from '../pantallas/UsuarioScreen';
 import ServiciosScreen from '../pantallas/ServiciosScreen';
 import ActividadScreen from '../pantallas/ActividadScreen';
+import SettingsScreen from '../pantallas/SettingsScreen';
+
+// ✅ AGREGAR: Importar LocationSelectorScreen
+import LocationSelectorScreen from '../pantallas/LocationSelectorScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -25,10 +29,45 @@ function HomeStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeMain" component={HomeScreen} />
       <Stack.Screen name="RequestTowScreen" component={RequestTowScreen} />
+      
+      {/* ✅ AGREGAR: LocationSelectorScreen aquí */}
+      <Stack.Screen 
+        name="LocationSelectorScreen" 
+        component={LocationSelectorScreen}
+      />
+      
       <Stack.Screen name="TowDetailsScreen" component={TowDetailsScreen} />
       <Stack.Screen name="ConfirmRequestScreen" component={ConfirmRequestScreen} />
       <Stack.Screen name="TrackTowScreen" component={TrackTowScreen} />
       <Stack.Screen name="TowCompletedScreen" component={TowCompletedScreen} />
+    </Stack.Navigator>
+  );
+}
+
+// Stack de Servicios
+function ServiciosStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ServiciosMain" component={ServiciosScreen} />
+    </Stack.Navigator>
+  );
+}
+
+// Stack de Actividad
+function ActividadStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ActividadMain" component={ActividadScreen} />
+    </Stack.Navigator>
+  );
+}
+
+// Stack de Usuario
+function UsuarioStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="UsuarioMain" component={UsuarioScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
 }
@@ -87,17 +126,17 @@ export default function AppStack() {
       />
       <Tab.Screen 
         name="Servicios" 
-        component={ServiciosScreen} 
+        component={ServiciosStack} 
         options={{ title: 'Servicios' }} 
       />
       <Tab.Screen 
         name="Actividad" 
-        component={ActividadScreen} 
+        component={ActividadStack} 
         options={{ title: 'Actividad' }} 
       />
       <Tab.Screen 
         name="Usuario" 
-        component={UsuarioScreen} 
+        component={UsuarioStack} 
         options={{ title: 'Usuario' }} 
       />
     </Tab.Navigator>

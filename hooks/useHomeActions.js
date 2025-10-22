@@ -5,36 +5,41 @@ export function useHomeActions(navigation) {
   const { user, selectedService, setSelectedService } = useAppContext();
 
   const handleProfilePress = useCallback(() => {
-    console.log('Perfil presionado');
-    // Navegacion a perfil (funcionalidad original)
-  }, []);
+    console.log(`${user.name} presiona perfil`);
+    navigation.navigate('Usuario');
+  }, [user.name, navigation]);
 
   const handleMainCardPress = useCallback(() => {
-    console.log('Solicitar grúa presionado');
-    // ✅ Navegacion original restaurada
-    navigation.navigate('RequestTowScreen', {
-      serviceType: 'Servicio de Grúa'
-    });
-  }, [navigation]);
+    console.log(`${user.name} presiona solicitar grúa`);
+    navigation.navigate('Servicios');
+  }, [user.name, navigation]);
 
-  const handleSuggestionPress = useCallback((suggestionType) => {
-    console.log(`Sugerencia ${suggestionType} presionada`);
-    // ✅ Navegacion original restaurada
-    navigation.navigate('RequestTowScreen', {
-      serviceType: suggestionType
+  // ✅ CAMBIAR: Navegar a LocationSelectorScreen
+  const handleSuggestionPress = useCallback((suggestion) => {
+    console.log(`${user.name} presiona sugerencia: ${suggestion}`);
+    
+    // Actualizar servicio seleccionado en el contexto
+    setSelectedService({
+      id: Date.now().toString(),
+      name: suggestion,
+      type: 'suggestion'
     });
-  }, [navigation]);
+    
+    // ✅ Navegar a LocationSelectorScreen
+    navigation.navigate('LocationSelectorScreen', {
+      serviceType: suggestion
+    });
+  }, [user.name, navigation, setSelectedService]);
 
   const handlePromotionsPress = useCallback(() => {
-    console.log('Promociones presionado');
-    // Navegacion a promociones (funcionalidad original)
-  }, []);
+    console.log(`${user.name} presiona promociones`);
+    // Navegación a promociones
+  }, [user.name]);
 
   const handleKnowMorePress = useCallback(() => {
-    console.log('Conoce más presionado');
-    // ✅ Navegacion original restaurada
-    // Navegacion a más información de promociones
-  }, []);
+    console.log(`${user.name} presiona conocer más`);
+    // Navegación a información
+  }, [user.name]);
 
   return {
     handleProfilePress,
