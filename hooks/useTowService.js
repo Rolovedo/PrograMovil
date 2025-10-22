@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { TowService, createTowRequestData } from '../services/towService';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -7,25 +7,47 @@ export const useTowService = () => {
   const [error, setError] = useState(null);
   const { user } = useAuth();
 
-  const createRequest = async (formData, serviceType, towType, urgency, price) => {
-    if (!user) {
-      throw new Error('Usuario no autenticado');
-    }
-
-    setLoading(true);
-    setError(null);
-    
+  const createRequest = useCallback(async (formData, serviceType, urgency, price) => {
     try {
-      const requestData = createTowRequestData(formData, serviceType, towType, urgency, price, user.id);
-      const result = await TowService.createTowRequest(requestData);
-      return result;
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
-      setLoading(false);
+      console.log('📝 Creando solicitud en Supabase:', {
+        serviceType,
+        urgency,
+        price,
+        telefono: formData.telefono
+      });
+
+      // ✅ Crear objeto de solicitud sin towType
+      const requestData = {
+        user_id: user?.id,
+        service_type: serviceType,
+        origin: formData.origen,
+        destination: formData.destino,
+        phone: formData.telefono,
+        urgency: urgency,
+        price: price,
+        status: 'pending',
+        distance: formData.distance || null,
+        estimated_duration: formData.estimatedDuration || null,
+        observations: formData.observaciones || null,
+        created_at: new Date().toISOString(),
+      };
+
+      const { data, error } = await supabase
+        .from('tow_requests') // O el nombre de tu tabla
+        .insert([requestData])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      console.log('✅ Solicitud creada exitosamente:', data);
+      return data;
+
+    } catch (error) {
+      console.error('❌ Error creando solicitud:', error);
+      throw error;
     }
-  };
+  }, [user]);
 
   const updateRequestStatus = async (requestId, status, driverInfo = null) => {
     setLoading(true);

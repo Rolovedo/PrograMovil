@@ -1,9 +1,7 @@
 // components/locationSelector/markers/DestinationMarker.js
-import React from 'react';
-import { View } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { memo } from 'react';
 
-export default function DestinationMarker({ Marker, coordinate }) {
+const DestinationMarker = memo(({ Marker, coordinate }) => {
   if (!Marker || !coordinate) return null;
 
   return (
@@ -12,18 +10,15 @@ export default function DestinationMarker({ Marker, coordinate }) {
       title="Destino del servicio"
       description="Punto de entrega"
       identifier="destination"
-      anchor={{ x: 0.5, y: 1 }}
-    >
-      <MaterialCommunityIcons 
-        name="map-marker" 
-        size={45} 
-        color="#FF3B30" 
-        style={{
-          textShadowColor: 'rgba(0,0,0,0.5)',
-          textShadowOffset: { width: 1, height: 1 },
-          textShadowRadius: 2,
-        }}
-      />
-    </Marker>
+      // ✅ Usar marcador nativo rojo
+      pinColor="red"
+      // ✅ Optimizaciones para evitar parpadeo
+      flat={true}
+      tracksViewChanges={false}
+    />
   );
-}
+});
+
+DestinationMarker.displayName = 'DestinationMarker';
+
+export default DestinationMarker;

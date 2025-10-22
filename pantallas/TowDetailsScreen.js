@@ -9,7 +9,7 @@ import { towDetailsScreenStyles as styles } from '../styles/towDetailsScreenStyl
 // Importar componentes modulares
 import TowDetailsHeader from '../components/towDetails/TowDetailsHeader';
 import ServiceSummaryCard from '../components/towDetails/ServiceSummaryCard';
-import TowTypeSelector from '../components/towDetails/TowTypeSelector';
+// ❌ Eliminar TowTypeSelector
 import UrgencySelector from '../components/towDetails/UrgencySelector';
 import PriceCard from '../components/towDetails/PriceCard';
 import ContinueButton from '../components/towDetails/ContinueButton';
@@ -21,15 +21,15 @@ export default function TowDetailsScreen({ navigation, route }) {
   const {
     formData,
     serviceType,
-    selectedTowType,
-    setSelectedTowType,
+    // ❌ Eliminar selectedTowType y setSelectedTowType
     selectedUrgency,
     setSelectedUrgency,
-    towTypes,
+    // ❌ Eliminar towTypes
     urgencyOptions,
     calculatePrice,
     handleContinue,
     handleGoBack,
+    basePrice,
   } = useTowDetailsActions(navigation, route);
 
   return (
@@ -43,17 +43,13 @@ export default function TowDetailsScreen({ navigation, route }) {
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         
+        {/* ✅ ServiceSummaryCard ahora mostrará el teléfono del usuario */}
         <ServiceSummaryCard 
           formData={formData}
           styles={styles}
         />
 
-        <TowTypeSelector 
-          towTypes={towTypes}
-          selectedTowType={selectedTowType}
-          onSelectTowType={setSelectedTowType}
-          styles={styles}
-        />
+        {/* ❌ TowTypeSelector eliminado completamente */}
 
         <UrgencySelector 
           urgencyOptions={urgencyOptions}
@@ -67,9 +63,10 @@ export default function TowDetailsScreen({ navigation, route }) {
           styles={styles}
         />
 
+        {/* ✅ Botón siempre habilitado */}
         <ContinueButton 
           onPress={handleContinue}
-          disabled={!selectedTowType}
+          disabled={false} // ✅ Siempre habilitado
           styles={styles}
         />
 

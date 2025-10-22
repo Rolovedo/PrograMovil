@@ -4,16 +4,6 @@ import { Alert } from 'react-native';
 export function useConfirmRequestActions(navigation, createRequest) {
   const [isCreating, setIsCreating] = useState(false);
 
-  const getTowTypeName = useCallback((type) => {
-    const types = {
-      'convencional': 'Convencional',
-      'xl': 'XL',
-      'moto': 'Moto',
-      'taller': 'Taller'
-    };
-    return types[type] || type;
-  }, []);
-
   const getUrgencyName = useCallback((urgency) => {
     const urgencies = {
       'normal': 'Normal',
@@ -23,18 +13,17 @@ export function useConfirmRequestActions(navigation, createRequest) {
     return urgencies[urgency] || urgency;
   }, []);
 
-  const handleConfirmar = useCallback(async (formData, serviceType, towType, urgency, price) => {
+  const handleConfirmar = useCallback(async (formData, serviceType, urgency, price) => {
     setIsCreating(true);
     
     try {
       // Crear la solicitud en Supabase
-      const requestResult = await createRequest(formData, serviceType, towType, urgency, price);
+      const requestResult = await createRequest(formData, serviceType, urgency, price);
       
       // Navegar a TrackTowScreen con el ID de la solicitud
       navigation.navigate('TrackTowScreen', {
         formData,
         serviceType,
-        towType,
         urgency,
         price,
         requestId: requestResult.id
@@ -74,7 +63,6 @@ export function useConfirmRequestActions(navigation, createRequest) {
 
   return {
     isCreating,
-    getTowTypeName,
     getUrgencyName,
     handleConfirmar,
     handleCancelar,

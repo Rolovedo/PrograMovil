@@ -2,9 +2,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
 import * as Location from 'expo-location';
+// ✅ Cambiar a usar AppContext en lugar de AuthContext
+import { useAppContext } from '../context/AppContext';
 
 export function useLocationSelector(navigation, route) {
   const { serviceType } = route?.params || {};
+  
+  // ✅ Obtener datos del usuario desde AppContext
+  const { user } = useAppContext();
   
   const [currentLocation, setCurrentLocation] = useState(null);
   const [destinationLocation, setDestinationLocation] = useState(null);
@@ -99,7 +104,7 @@ export function useLocationSelector(navigation, route) {
       const region = {
         latitude,
         longitude,
-        latitudeDelta: 0.015, // Zoom más amplio para ver más área
+        latitudeDelta: 0.015,
         longitudeDelta: 0.015,
       };
       setMapRegion(region);
@@ -121,7 +126,7 @@ export function useLocationSelector(navigation, route) {
 
   // Calcular distancia usando fórmula Haversine
   const calculateDistance = useCallback((lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Radio de la Tierra en km
+    const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = 
@@ -181,7 +186,7 @@ export function useLocationSelector(navigation, route) {
     const address = await getAddressFromLocation(latitude, longitude);
     setDestinationAddress(address);
     
-    // Calcular distancia en línea recta (se actualizará con la ruta real)
+    // Calcular distancia en línea recta
     const dist = calculateDistance(
       currentLocation.latitude,
       currentLocation.longitude,
@@ -190,40 +195,68 @@ export function useLocationSelector(navigation, route) {
     );
     setDistance(dist);
     
-    // Precio inicial (se actualizará con la ruta real)
+    // Precio inicial
     const price = calculatePrice(dist);
     setEstimatedPrice(price);
     
     console.log('📊 Cálculos iniciales (línea recta):', { distance: dist, price });
-    // La ruta real se calculará automáticamente y actualizará estos valores
   }, [currentLocation, getAddressFromLocation, calculateDistance, calculatePrice]);
 
-  // Continuar a TowDetailsScreen
+  // ✅ Continuar a TowDetailsScreen con teléfono desde AppContext
   const handleContinue = useCallback(() => {
     if (!currentLocation || !destinationLocation) {
       Alert.alert('Error', 'Por favor selecciona un destino en el mapa');
       return;
     }
 
+    // ✅ Obtener teléfono desde AppContext con múltiples fallbacks
+    let userPhone = '';
+    
+    // Intentar diferentes propiedades del usuario
+    if (user?.phone) {
+      userPhone = user.phone;
+      console.log('✅ Teléfono obtenido de user.phone:', userPhone);
+    } else if (user?.telefono) {
+      userPhone = user.telefono;
+      console.log('✅ Teléfono obtenido de user.telefono:', userPhone);
+    } else if (user?.phoneNumber) {
+      userPhone = user.phoneNumber;
+      console.log('✅ Teléfono obtenido de user.phoneNumber:', userPhone);
+    } else {
+      console.log('⚠️ No se encontró teléfono en el usuario');
+    }
+    
+    console.log('📱 Datos del usuario desde AppContext:', {
+      userCompleto: user,
+      phone: user?.phone,
+      telefono: user?.telefono,
+      phoneNumber: user?.phoneNumber,
+      telefonoFinal: userPhone,
+      isAuthenticated: user?.isAuthenticated
+    });
+
     navigation.navigate('TowDetailsScreen', {
       formData: {
         origen: currentAddress,
         destino: destinationAddress,
-        telefono: '',
-        tipoVehiculo: '',
+        telefono: userPhone, // ✅ Teléfono desde AppContext
         observaciones: '',
         currentLocation,
         destinationLocation,
-        distance: realDistance > 0 ? realDistance.toFixed(2) : distance.toFixed(2), // Usar distancia real si está disponible
+        distance: realDistance > 0 ? realDistance.toFixed(2) : distance.toFixed(2),
         estimatedPrice,
         // ✅ Datos adicionales de ruta
         routeInfo: routeInfo,
         estimatedDuration: estimatedDuration,
         realDistance: realDistance,
+        // ✅ Datos del usuario desde AppContext
+        userId: user?.id,
+        userEmail: user?.email,
+        userName: user?.name || user?.fullName,
       },
       serviceType: serviceType || 'Servicio de Grúa',
     });
-  }, [navigation, currentLocation, destinationLocation, currentAddress, destinationAddress, distance, realDistance, estimatedPrice, serviceType, routeInfo, estimatedDuration]);
+  }, [navigation, currentLocation, destinationLocation, currentAddress, destinationAddress, distance, realDistance, estimatedPrice, serviceType, routeInfo, estimatedDuration, user]);
 
   // Volver atrás
   const handleGoBack = useCallback(() => {
@@ -234,6 +267,20 @@ export function useLocationSelector(navigation, route) {
   useEffect(() => {
     getCurrentLocation();
   }, [getCurrentLocation]);
+
+  // ✅ Debug: Log detallado del usuario desde AppContext
+  useEffect(() => {
+    console.log('👤 === DEBUG USUARIO APPCONTEXT ===');
+    console.log('Usuario completo:', user);
+    console.log('user.phone:', user?.phone);
+    console.log('user.telefono:', user?.telefono);
+    console.log('user.phoneNumber:', user?.phoneNumber);
+    console.log('user.name:', user?.name);
+    console.log('user.fullName:', user?.fullName);
+    console.log('user.email:', user?.email);
+    console.log('user.isAuthenticated:', user?.isAuthenticated);
+    console.log('=================================');
+  }, [user]);
 
   // Preparar datos para LocationInfoCard con información de ruta
   const locationData = {
@@ -254,11 +301,14 @@ export function useLocationSelector(navigation, route) {
     handleMapPress,
     handleGoBack,
     handleContinue,
-    handleRouteCalculated, // ✅ Nueva función
+    handleRouteCalculated,
     formatPrice,
     canContinue: !!(currentLocation && destinationLocation),
-    routeInfo, // ✅ Datos de ruta
+    routeInfo,
     realDistance,
     estimatedDuration,
+    // ✅ Datos del usuario para debugging
+    user,
+    userPhone: user?.phone || user?.telefono || user?.phoneNumber || '',
   };
 }

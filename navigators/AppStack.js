@@ -29,13 +29,7 @@ function HomeStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeMain" component={HomeScreen} />
       <Stack.Screen name="RequestTowScreen" component={RequestTowScreen} />
-      
-      {/* ✅ AGREGAR: LocationSelectorScreen aquí */}
-      <Stack.Screen 
-        name="LocationSelectorScreen" 
-        component={LocationSelectorScreen}
-      />
-      
+      <Stack.Screen name="LocationSelectorScreen" component={LocationSelectorScreen} />
       <Stack.Screen name="TowDetailsScreen" component={TowDetailsScreen} />
       <Stack.Screen name="ConfirmRequestScreen" component={ConfirmRequestScreen} />
       <Stack.Screen name="TrackTowScreen" component={TrackTowScreen} />

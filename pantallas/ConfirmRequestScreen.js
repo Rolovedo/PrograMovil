@@ -15,12 +15,11 @@ import ActionButtons from '../components/confirmRequest/ActionButtons';
 import { useConfirmRequestActions } from '../hooks/useConfirmRequestActions';
 
 export default function ConfirmRequestScreen({ navigation, route }) {
-  const { formData, serviceType, towType, urgency, price } = route.params;
+  const { formData, serviceType, urgency, price } = route.params;
   const { createRequest, loading, error } = useTowService();
   
   const {
     isCreating,
-    getTowTypeName,
     getUrgencyName,
     handleConfirmar,
     handleCancelar,
@@ -28,7 +27,7 @@ export default function ConfirmRequestScreen({ navigation, route }) {
     handleGoBack,
   } = useConfirmRequestActions(navigation, createRequest);
 
-  const onConfirm = () => handleConfirmar(formData, serviceType, towType, urgency, price);
+  const onConfirm = () => handleConfirmar(formData, serviceType, urgency, price);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,9 +43,8 @@ export default function ConfirmRequestScreen({ navigation, route }) {
         
         <ServiceSummaryCard 
           formData={formData}
-          towType={towType}
+          serviceType={serviceType}
           urgency={urgency}
-          getTowTypeName={getTowTypeName}
           getUrgencyName={getUrgencyName}
           styles={styles}
         />

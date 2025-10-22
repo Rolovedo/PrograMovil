@@ -1,5 +1,5 @@
 // components/locationSelector/RealMapView.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -27,6 +27,9 @@ export default function RealMapView({
   const [routeCoordinates, setRouteCoordinates] = useState([]);
   const [calculatingRoute, setCalculatingRoute] = useState(false);
   const [routeInfo, setRouteInfo] = useState(null);
+
+  // ✅ Referencia al MapView para controlar la cámara
+  const mapRef = useRef(null);
 
   // Obtener componentes de mapa
   const mapComponents = MapHelpers.getMapComponents();
@@ -78,13 +81,46 @@ export default function RealMapView({
     }
   }, [currentLocation, destinationLocation]);
 
-  // ✅ Handlers para controles
+  // ✅ Función para centrar en ubicación actual
   const handleCenterLocation = () => {
-    console.log('🎯 Centrar en ubicación actual');
+    if (!currentLocation || !mapRef.current) {
+      console.log('⚠️ No hay ubicación actual o referencia al mapa');
+      return;
+    }
+
+    console.log('🎯 Centrando en ubicación actual:', currentLocation);
+
+    // Crear región centrada en la ubicación actual
+    const region = {
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+      latitudeDelta: 0.01, // Zoom más cercano
+      longitudeDelta: 0.01,
+    };
+
+    // Animar hacia la ubicación actual
+    mapRef.current.animateToRegion(region, 1000); // 1000ms de duración
   };
 
+  // ✅ Función para ajustar vista a toda la ruta
   const handleFitToRoute = () => {
+    if (!mapRef.current || routeCoordinates.length < 2) {
+      console.log('⚠️ No hay ruta para ajustar vista');
+      return;
+    }
+
     console.log('🎯 Ajustando vista a la ruta completa');
+
+    // Usar fitToCoordinates para mostrar toda la ruta
+    mapRef.current.fitToCoordinates(routeCoordinates, {
+      edgePadding: {
+        top: 100,
+        right: 50,
+        bottom: 200, // Más espacio abajo para los controles
+        left: 50,
+      },
+      animated: true,
+    });
   };
 
   const handleMapReady = () => {
@@ -115,26 +151,50 @@ export default function RealMapView({
 
     return (
       <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}>
-        <MapView {...mapProps} provider={PROVIDER_GOOGLE}>
-          {/* Marcadores */}
-          <OriginMarker Marker={Marker} coordinate={currentLocation} />
-          <DestinationMarker Marker={Marker} coordinate={destinationLocation} />
+        <MapView 
+          {...mapProps} 
+          provider={PROVIDER_GOOGLE}
+          ref={mapRef} // ✅ Referencia para controlar el mapa
+        >
+          {/* ✅ Marcadores nativos con keys estáticas */}
+          {currentLocation && (
+            <OriginMarker 
+              key="origin-marker-static"
+              Marker={Marker} 
+              coordinate={currentLocation} 
+            />
+          )}
+          
+          {destinationLocation && (
+            <DestinationMarker 
+              key="destination-marker-static"
+              Marker={Marker} 
+              coordinate={destinationLocation} 
+            />
+          )}
 
           {/* Polyline de ruta */}
           {routeCoordinates.length > 0 && (
             <Polyline {...polylineProps} />
           )}
 
-          {/* Puntos intermedios */}
+          {/* Puntos intermedios más estables */}
           {waypoints.map((coord, index) => (
             <Marker
-              key={`waypoint-${index}`}
+              key={`waypoint-${coord.latitude.toFixed(6)}-${coord.longitude.toFixed(6)}`}
               coordinate={coord}
               anchor={{ x: 0.5, y: 0.5 }}
+              flat={true}
+              tracksViewChanges={false}
             >
               <View style={{
-                width: 6, height: 6, backgroundColor: '#007AFF',
-                borderRadius: 3, borderWidth: 1, borderColor: 'white', opacity: 0.8,
+                width: 6, 
+                height: 6, 
+                backgroundColor: '#007AFF',
+                borderRadius: 3, 
+                borderWidth: 1, 
+                borderColor: 'white', 
+                opacity: 0.8,
               }} />
             </Marker>
           ))}
@@ -149,8 +209,8 @@ export default function RealMapView({
         />
         <MapControls 
           routeCoordinates={routeCoordinates}
-          onCenterLocation={handleCenterLocation}
-          onFitToRoute={handleFitToRoute}
+          onCenterLocation={handleCenterLocation} // ✅ Función implementada
+          onFitToRoute={handleFitToRoute} // ✅ Función mejorada
         />
 
         {/* Indicador de carga */}
