@@ -240,7 +240,7 @@ export function useLocationSelector(navigation, route) {
         origen: currentAddress,
         destino: destinationAddress,
         telefono: userPhone, // ✅ Teléfono desde AppContext
-        observaciones: '',
+        //observaciones: '',
         currentLocation,
         destinationLocation,
         distance: realDistance > 0 ? realDistance.toFixed(2) : distance.toFixed(2),
@@ -265,16 +265,14 @@ export function useLocationSelector(navigation, route) {
 
   // Obtener ubicación al montar componente
   useEffect(() => {
-    getCurrentLocation();
-  }, [getCurrentLocation]);
+    getCurrentLocation();  //funcion o accion
+  }, [getCurrentLocation]); //valor inicial
 
   // ✅ Debug: Log detallado del usuario desde AppContext
   useEffect(() => {
     console.log('👤 === DEBUG USUARIO APPCONTEXT ===');
     console.log('Usuario completo:', user);
     console.log('user.phone:', user?.phone);
-    console.log('user.telefono:', user?.telefono);
-    console.log('user.phoneNumber:', user?.phoneNumber);
     console.log('user.name:', user?.name);
     console.log('user.fullName:', user?.fullName);
     console.log('user.email:', user?.email);
@@ -307,7 +305,7 @@ export function useLocationSelector(navigation, route) {
     routeInfo,
     realDistance,
     estimatedDuration,
-    // ✅ Datos del usuario para debugging
+    //datos del usuario
     user,
     userPhone: user?.phone || user?.telefono || user?.phoneNumber || '',
   };

@@ -1,4 +1,3 @@
-// utils/mapHelpers.js
 export const MapHelpers = {
   // Verificar disponibilidad de react-native-maps
   getMapComponents: () => {

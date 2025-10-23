@@ -6,7 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 export default function UserHeader({ onBackPress, styles }) {
   const { user } = useAppContext();
-  const { logout } = useAuth(); // Para manejar logout si es necesario
+  const { logout } = useAuth();
 
   return (
     <View style={styles.header}>

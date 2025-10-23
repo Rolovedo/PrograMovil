@@ -11,7 +11,7 @@ export default function ServiceHistoryCard({
 }) {
   const { user, selectedService, setSelectedService } = useAppContext();
 
-  // Datos mock del servicio (en producción vendrían como props)
+  //datos del servicio como ejemplo, despues se ponen como props
   const serviceData = {
     id: '1',
     location: 'Poblado 2 Mz 10 casa 5',
@@ -19,13 +19,13 @@ export default function ServiceHistoryCard({
     time: '11:36AM',
     price: '$70.000',
     serviceName: 'Grúa Convencional',
-    rating: null, // null = no calificado, número = ya calificado
+    rating: null, //se pone incialmente para que no este calificado
   };
 
   const handleRechargePress = (e) => {
     e.stopPropagation();
     
-    // Actualizar el servicio seleccionado en el contexto
+    //actualizar el servicio seleccionado en el contexto
     setSelectedService({
       id: serviceData.id,
       name: serviceData.serviceName,
@@ -48,7 +48,6 @@ export default function ServiceHistoryCard({
       onPress={() => onServiceDetails(serviceData.id)}
       activeOpacity={0.8}
     >
-      {/* Map placeholder */}
       <View style={styles.mapContainer}>
         <Image 
           source={require('../../assets/map.png')} 
@@ -56,7 +55,6 @@ export default function ServiceHistoryCard({
         />
       </View>
 
-      {/* Service info */}
       <View style={styles.serviceInfo}>
         <Text style={styles.serviceLocation}>{serviceData.location}</Text>
         <Text style={styles.serviceDateTime}>
@@ -64,12 +62,11 @@ export default function ServiceHistoryCard({
         </Text>
         <Text style={styles.servicePrice}>{serviceData.price}</Text>
         
-        {/* Mostrar información del usuario desde el contexto */}
+        {/* informacion del usuario desde el contexto*/}
         <Text style={styles.serviceUser}>
           Usuario: {user.name} | Rating: {user.rating} ⭐
         </Text>
         
-        {/* Mostrar si este servicio está seleccionado */}
         {selectedService && selectedService.id === serviceData.id && (
           <Text style={styles.selectedServiceIndicator}>
             ✓ Servicio seleccionado para recargar
@@ -77,7 +74,7 @@ export default function ServiceHistoryCard({
         )}
       </View>
 
-      {/* Action buttons */}
+      {/*boton de calificar*/}
       <View style={styles.serviceActions}>
         <TouchableOpacity 
           style={[

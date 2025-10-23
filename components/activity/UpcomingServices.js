@@ -36,7 +36,7 @@ export default function UpcomingServices({ onRequestTow, styles }) {
                 {isLoading ? 'Cargando...' : 'Pide tu grúa ya'}
               </Text>
               
-              {/* Mostrar servicio seleccionado si existe */}
+              {/*mostrar servicio seleccionado si existe*/}
               {selectedService && !isLoading && (
                 <Text style={styles.selectedServiceHint}>
                   Último servicio: {selectedService.name}
@@ -44,10 +44,7 @@ export default function UpcomingServices({ onRequestTow, styles }) {
               )}
             </View>
             <View style={styles.noServicesIcon}>
-              <Image
-                source={require('../../assets/calendario.png')}
-                style={{ width: 80, height: 80, resizeMode: 'contain' }}
-              />
+              <Image source={require('../../assets/calendario.png')} style={styles.logo} resizeMode="contain" />
             </View>
           </View>
         </TouchableOpacity>

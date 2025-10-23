@@ -109,7 +109,7 @@ export default function AppStack() {
         },
         headerShown: false,
         contentStyle: {
-          paddingBottom: 0, // El tab navigator ya maneja esto
+          paddingBottom: 0, 
         },
       })}
     >

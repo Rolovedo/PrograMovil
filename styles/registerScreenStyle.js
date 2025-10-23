@@ -56,7 +56,7 @@ export const registerScreenStyles = StyleSheet.create({
     padding: 5,
   },
   registerButton: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: '#007AFF',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -84,7 +84,7 @@ export const registerScreenStyles = StyleSheet.create({
     fontSize: 14,
   },
   loginLink: {
-    color: '#FF6B35',
+    color: '#007AFF',
     fontSize: 14,
     fontWeight: 'bold',
   },

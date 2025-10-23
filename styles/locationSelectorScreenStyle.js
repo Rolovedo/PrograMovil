@@ -111,28 +111,28 @@ export const locationSelectorScreenStyles = StyleSheet.create({
   // ✅ INFO CARD
   infoCard: {
     backgroundColor: '#111',
-    margin: 20,
+    margin: 10,
     padding: 20,
     borderRadius: 15,
     borderWidth: 1,
     borderColor: '#333',
   },
   infoRow: {
-    marginBottom: 12,
+    marginBottom: 10,
   },
   infoLabel: {
     color: '#888',
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: 4,
   },
   infoValue: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
   },
   priceValue: {
     color: '#34C759',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   

@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 export default function PastServicesHeader({ onFilter, styles }) {
   return (
     <View style={styles.pastHeader}>
-      <Text style={styles.sectionTitle}>Pasado</Text>
+      <Text style={styles.sectionTitle}>Ultimos servicios</Text>
       <TouchableOpacity 
         style={styles.filterButton}
         onPress={onFilter}

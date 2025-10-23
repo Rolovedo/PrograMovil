@@ -28,6 +28,10 @@ export const actividadScreenStyles = StyleSheet.create({
     color: '#fff',
     marginBottom: 15,
   },
+  logo: {
+    width: 80,
+    height: 80,
+  },
   noServicesCard: {
     backgroundColor: '#f0f0f0',
     borderRadius: 12,

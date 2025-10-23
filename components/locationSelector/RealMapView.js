@@ -1,4 +1,3 @@
-// components/locationSelector/RealMapView.js
 import React, { useState, useEffect, useRef } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

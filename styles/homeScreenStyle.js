@@ -29,6 +29,10 @@ export const homeScreenStyles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
+  logo: {
+    width: 100,
+    height: 100,
+  },
   mainCard: {
     backgroundColor: '#1a1a1a',
     borderRadius: 16,
@@ -113,7 +117,7 @@ export const homeScreenStyles = StyleSheet.create({
   suggestionCard: {
     backgroundColor: '#1a1a1a',
     borderRadius: 16,
-    padding: 16,
+    padding: 12,
     width: '48%',
     alignItems: 'center',
     minHeight: 100,
@@ -121,7 +125,7 @@ export const homeScreenStyles = StyleSheet.create({
   },
   suggestionText: {
     color: 'white',
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: '500',
     textAlign: 'center',
     marginTop: 8,

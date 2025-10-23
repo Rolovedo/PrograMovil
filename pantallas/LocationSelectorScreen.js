@@ -60,7 +60,6 @@ export default function LocationSelectorScreen({ navigation, route }) {
           </Text>
         </View>
       ) : (
-        /* Contenido principal */
         <>
           {/* Área del mapa - ocupa todo el espacio disponible */}
           <View style={styles.mapArea}>

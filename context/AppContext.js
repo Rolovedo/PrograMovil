@@ -2,34 +2,34 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../config/supabase';
 
-//estado inicial del contexto
-const initialState = {
-  //Usuario
-  user: {
-    name: 'Usuario',
-    rating: 4.82,
-    isAuthenticated: false,
-  },
-  
-  selectedService: null,
-  location: null,
-  //estado de carga
-  isLoading: false,
-};
-
-//creacion del contexto
 const AppContext = createContext();
 
-//provider del contexto
 export function AppProvider({ children }) {
-  const { user: authUser } = useAuth(); // Obtener usuario del AuthContext
+  const { user: authUser } = useAuth();
   
-  const [selectedService, setSelectedService] = useState(initialState.selectedService);
-  const [location, setLocation] = useState(initialState.location);
-  const [isLoading, setIsLoading] = useState(initialState.isLoading);
-  const [user, setUser] = useState(initialState.user);
+  // estado inicial del usuario con rating fijo y nombres separados
+  const [user, setUser] = useState({
+    name: 'Usuario',
+    fullName: 'Usuario',
+    rating: 4.82,
+    isAuthenticated: false,
+    email: '',
+    phone: '',
+  });
 
-  // ✅ Función para obtener datos del usuario desde la tabla users
+  // ✅ Estado para el servicio seleccionado
+  const [selectedService, setSelectedService] = useState(null);
+
+  // ✅ Estado de carga global para pantallas que lo necesiten
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Función para extraer el primer nombre
+  const getFirstName = (fullName) => {
+    if (!fullName) return 'Usuario';
+    return fullName.split(' ')[0]; // Toma solo la primera palabra
+  };
+
+  //funcion para obtener datos del usuario desde Supabase
   const fetchUserProfile = async (userId) => {
     try {
       console.log('🔍 Buscando perfil del usuario:', userId);
@@ -53,7 +53,35 @@ export function AppProvider({ children }) {
     }
   };
 
-  // ✅ Actualizar usuario cuando cambie el AuthContext
+  // ✅ Función para limpiar el servicio seleccionado
+  const clearSelectedService = () => {
+    console.log('🧹 Limpiando servicio seleccionado');
+    setSelectedService(null);
+  };
+
+  // ✅ Función para seleccionar un servicio
+  const selectService = (serviceType, serviceData = {}) => {
+    const service = {
+      id: Date.now().toString(),
+      name: serviceType,
+      type: serviceData.type || 'suggestion',
+      selectedAt: new Date().toISOString(),
+      ...serviceData
+    };
+    
+    console.log('🚛 Servicio seleccionado en contexto:', service);
+    setSelectedService(service);
+    
+    return service;
+  };
+
+  // ✅ Función helper para manejar carga con logs
+  const setLoadingWithLog = (loading, action = '') => {
+    console.log(`🔄 ${action ? `${action}: ` : ''}${loading ? 'Iniciando carga...' : 'Carga completada'}`);
+    setIsLoading(loading);
+  };
+
+  // ✅ Efecto para cargar datos del usuario autenticado
   useEffect(() => {
     const loadUserData = async () => {
       if (authUser) {
@@ -62,57 +90,69 @@ export function AppProvider({ children }) {
         // Obtener datos adicionales de la tabla users
         const userProfile = await fetchUserProfile(authUser.id);
         
-        let userName = 'Usuario';
-        let fullName = '';
+        const fullName = userProfile?.name || 'Usuario Desconocido';
+        const name = getFirstName(fullName);
         
-        if (userProfile && userProfile.name) {
-          // Usar el nombre real de la base de datos
-          fullName = userProfile.name;
-          userName = userProfile.name.split(' ')[0]; // Primer nombre
-          console.log('✅ Usando nombre de la BD:', userName);
-        } else {
-          // Fallback al nombre quemado si no hay datos en la BD
-          userName = 'Samuel López';
-          fullName = 'Samuel López García';
-          console.log('⚠️ Usando nombre fallback:', userName);
-        }
-        
+        // ✅ Crear objeto de usuario con nombres separados y rating fijo
         const newUser = {
-          name: userName,
-          rating: 4.82,
-          isAuthenticated: true,
+          id: authUser.id,
+          name: name, // ✅ Solo primer nombre
+          fullName: fullName, // ✅ Nombre completo
+          rating: 4.82, // ✅ Rating fijo
           email: authUser.email,
-          fullName: fullName,
           phone: userProfile?.phone || '',
+          isAuthenticated: true,
         };
         
-        console.log('🎯 Usuario final creado:', newUser);
+        console.log('🎯 Usuario cargado:', {
+          name: newUser.name,
+          fullName: newUser.fullName,
+          rating: newUser.rating,
+          phone: newUser.phone
+        });
+        
         setUser(newUser);
       } else {
-        // Usuario no autenticado
+        // ✅ Usuario no autenticado - resetear todo
         console.log('❌ Usuario no autenticado');
-        setUser(initialState.user);
+        setUser({
+          name: 'Usuario',
+          fullName: 'Usuario',
+          rating: 4.82,
+          isAuthenticated: false,
+          email: '',
+          phone: '',
+        });
+        // ✅ Limpiar servicio seleccionado y loading también
+        setSelectedService(null);
+        setIsLoading(false);
       }
     };
 
     loadUserData();
   }, [authUser]);
 
+  // ✅ Exportar todo lo necesario incluyendo isLoading
   const value = {
-    //estos son los estados
+    // Estados del usuario
     user,
-    selectedService,
-    location,
-    isLoading,
-    
-    //funciones para actualizar estados
     setUser,
+    
+    // Estados del servicio seleccionado
+    selectedService,
     setSelectedService,
-    setLocation,
+    
+    // Estados de carga
+    isLoading,
     setIsLoading,
     
-    // ✅ Función para actualizar perfil
-    updateUserProfile: fetchUserProfile,
+    // Funciones utilitarias
+    selectService,
+    clearSelectedService,
+    setLoadingWithLog, // ✅ Helper con logs
+    
+    // Datos calculados
+    hasSelectedService: !!selectedService,
   };
 
   return (
@@ -122,7 +162,7 @@ export function AppProvider({ children }) {
   );
 }
 
-//hook personalizado para usar el contexto
+// ✅ Hook personalizado sin cambios
 export function useAppContext() {
   const context = useContext(AppContext);
   

@@ -1,7 +1,7 @@
 // utils/routeCalculator.js
 export class RouteCalculator {
   static async calculateRoute(origin, destination) {
-    console.log('🛣️ Iniciando cálculo de ruta:', { origin, destination });
+    console.log('Iniciando cálculo de ruta:', { origin, destination });
 
     try {
       // Intentar primero con OpenRouteService
@@ -52,8 +52,8 @@ export class RouteCalculator {
           longitude: coord[0]
         }));
         
-        const distance = route.properties.summary.distance / 1000; // km
-        const duration = route.properties.summary.duration / 60; // minutos
+        const distance = route.properties.summary.distance / 1000; // de metros a km
+        const duration = route.properties.summary.duration / 60; // de segundos a minutos
 
         return {
           success: true,
@@ -120,7 +120,7 @@ export class RouteCalculator {
     
     const straightCoordinates = [origin, destination];
     
-    // Fórmula Haversine para distancia
+    // Formula Haversine para distancia
     const R = 6371; // Radio terrestre en km
     const dLat = (destination.latitude - origin.latitude) * Math.PI / 180;
     const dLon = (destination.longitude - origin.longitude) * Math.PI / 180;

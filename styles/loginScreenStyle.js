@@ -15,19 +15,25 @@ export const loginScreenStyles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 40,
+    paddingTop: 40,
+  },
+  logo: {
+    width: 180,
+    height: 180,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
     color: '#CCCCCC',
     textAlign: 'center',
+    marginBottom: 20,
   },
   form: {
     width: '100%',
@@ -55,7 +61,7 @@ export const loginScreenStyles = StyleSheet.create({
     padding: 5,
   },
   loginButton: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: '#007AFF',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -83,7 +89,7 @@ export const loginScreenStyles = StyleSheet.create({
     fontSize: 14,
   },
   registerLink: {
-    color: '#FF6B35',
+    color: '#007AFF',
     fontSize: 14,
     fontWeight: 'bold',
   },

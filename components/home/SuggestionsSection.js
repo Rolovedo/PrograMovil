@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAppContext } from '../../context/AppContext';
 
@@ -18,7 +18,7 @@ export default function SuggestionsSection({ onSuggestionPress, styles }) {
           onPress={() => onSuggestionPress('Remolque ligero')}
           activeOpacity={0.8}
         >
-          <MaterialCommunityIcons name="truck" size={32} color="white" />
+          <Image source={require('../../assets/gruamoto.png')} style={styles.logo} resizeMode="contain" />
             <Text style={styles.suggestionText}>Remolque{'\n'}ligero</Text>
         </TouchableOpacity>
         
@@ -27,7 +27,7 @@ export default function SuggestionsSection({ onSuggestionPress, styles }) {
           onPress={() => onSuggestionPress('Transporte vehículo')}
           activeOpacity={0.8}
         >
-          <MaterialCommunityIcons name="car-side" size={32} color="white" />
+          <Image source={require('../../assets/gruacarro.png')} style={styles.logo} resizeMode="contain" />
           <Text style={styles.suggestionText}>Transporte{'\n'}vehículo</Text>
         </TouchableOpacity>
         
@@ -36,7 +36,7 @@ export default function SuggestionsSection({ onSuggestionPress, styles }) {
           onPress={() => onSuggestionPress('Traslado ciudad')}
           activeOpacity={0.8}
         >
-          <MaterialCommunityIcons name="car-back" size={32} color="white" />
+          <Image source={require('../../assets/gruaxl.png')} style={styles.logo} resizeMode="contain" />
           <Text style={styles.suggestionText}>Traslado{'\n'}ciudad</Text>
         </TouchableOpacity>
         
@@ -45,7 +45,7 @@ export default function SuggestionsSection({ onSuggestionPress, styles }) {
           onPress={() => onSuggestionPress('Asistencia rápida')}
           activeOpacity={0.8}
         >
-          <MaterialCommunityIcons name="wrench" size={32} color="white" />
+          <Image source={require('../../assets/gruataller.png')} style={styles.logo} resizeMode="contain" />
           <Text style={styles.suggestionText}>Asistencia{'\n'}rápida</Text>
         </TouchableOpacity>
       </View>

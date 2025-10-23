@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 export default function RegisterHeader({ styles }) {
   return (
     <View style={styles.header}>
-      <MaterialCommunityIcons name="account-plus" size={60} color="#FF6B35" />
+      <MaterialCommunityIcons name="account-plus" size={60} color="#007AFF" />
       <Text style={styles.title}>Crear Cuenta</Text>
       <Text style={styles.subtitle}>Regístrate para comenzar</Text>
     </View>

@@ -21,7 +21,7 @@ export const serviciosData = [
   },
   { 
     id: '4', 
-    image: require('../assets/gruacarro.png'), 
+    image: require('../assets/gruataller.png'), 
     titulo: 'Taller',
     precio: '$65.000'
   },

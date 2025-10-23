@@ -10,16 +10,6 @@ export default function ActivityHeader({ styles }) {
       <Text style={styles.title}>
         {user.isAuthenticated ? `Actividad` : 'Actividad'}
       </Text>
-      {user.isAuthenticated && (
-        <View>
-          {/* Mostrar nombre completo si está disponible */}
-          {user.fullName && (
-            <Text style={styles.fullName}>
-              {user.fullName}
-            </Text>
-          )}
-        </View>
-      )}
     </View>
   );
 }
