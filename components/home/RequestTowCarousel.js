@@ -1,46 +1,72 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useAppContext } from '../../context/AppContext';
 
-export default function RequestTowCarousel({ onMainCardPress, styles }) {
-  const { user } = useAppContext();
+export default function RequestTowCarousel({ onMainCardPress, styles = {} }) {
+  const { user } = useAppContext() || {};
+  const isAuth = user && user.isAuthenticated;
+  const name = (user && user.name) || 'Invitado';
 
-  return (
-    <View style={styles.mainCard}>
-      <Text style={styles.mainTitle}>
-        {user.isAuthenticated 
-          ? `${user.name}, solicita tu próxima grúa`
-          : 'Solicita tu próxima grúa'
-        }
-      </Text>
-      
-      <View style={styles.illustrationContainer}>
-        <View style={styles.phoneFrame}>
-          <View style={styles.phoneScreen}>
-            <View style={styles.illustrationContent}>
-              <Image 
-                source={require('../../assets/rentalCar.png')} 
-                style={{ width: 150, height: 100, resizeMode: 'contain' }} 
-              />
-            </View>
-          </View>
-          <View style={styles.phoneButton} />
+  const content = (
+      <View style={[defaultStyles.container]}>
+        <Image
+          source={require('../../assets/rentalCar.png')}
+          style={[defaultStyles.image, styles.image]}
+        />
+
+        <View style={[defaultStyles.textContainer, styles.textContainer]}>
+          <Text style={[defaultStyles.title]}>
+            {isAuth ? 'Bienvenido' : 'Bienvenido'}
+          </Text>
+          <Text style={[defaultStyles.name]} numberOfLines={1}>
+            {isAuth ? name : 'Invitado'}
+          </Text>
         </View>
-        
-        <TouchableOpacity 
-          style={styles.arrowButton}
-          onPress={onMainCardPress}
-          activeOpacity={0.8}
-        >
-          <MaterialCommunityIcons name="chevron-right" size={24} color="#666" />
-        </TouchableOpacity>
       </View>
-      
-      <View style={styles.pagination}>
-        <View style={[styles.dot, styles.activeDot]} />
-        <View style={styles.dot} />
-      </View>
-    </View>
   );
+
+  if (onMainCardPress) {
+    return (
+      <TouchableOpacity activeOpacity={0.85} onPress={onMainCardPress}>
+        {content}
+      </TouchableOpacity>
+    );
+  }
+
+  return content;
 }
+
+const defaultStyles = StyleSheet.create({
+  gradientContainer: {
+    borderRadius: 18,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: -5
+  },
+  image: {
+    width: 210,
+    height: 160,
+    marginRight:20
+  },
+  textContainer: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: '700',
+    color: '#f8f8f8ff',
+    letterSpacing: 0.3,
+  },
+    name: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: '#ff9c1aff',
+    letterSpacing: 0.3,
+  },
+});
