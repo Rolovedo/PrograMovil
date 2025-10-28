@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import NameInput from './NameInput';
-import EmailInput from '../login/EmailInput'; // Reutilizar del login
+import EmailInput from '../login/EmailInput';
 import PhoneInput from './PhoneInput';
-import PasswordInput from '../login/PasswordInput'; // Reutilizar del login
+import PasswordInput from '../login/PasswordInput';
 import ConfirmPasswordInput from './ConfirmPasswordInput';
 import RegisterButton from './RegisterButton';
 import LoginLink from './LoginLink';

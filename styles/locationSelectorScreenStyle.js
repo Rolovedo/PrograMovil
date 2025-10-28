@@ -107,6 +107,106 @@ export const locationSelectorScreenStyles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
   },
+
+  // ✅ ===== ESTILOS DE ROUTE INFO =====
+  
+  // Contenedor principal de RouteInfo
+  routeInfoContainer: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    right: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.95)',
+    padding: 15,
+    borderRadius: 12,
+    borderWidth: 1,
+    zIndex: 10,
+  },
+
+  // Estados del contenedor
+  routeInfoCalculating: {
+    borderColor: '#FFA500',
+  },
+
+  routeInfoReady: {
+    borderColor: '#34C759',
+  },
+
+  routeInfoError: {
+    borderColor: '#FF3B30',
+  },
+
+  // Fila de cálculo (cuando está calculando)
+  routeCalculatingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  routeCalculatingText: {
+    color: '#FFA500',
+    fontSize: 14,
+    marginLeft: 10,
+    fontWeight: '500',
+  },
+
+  routeLoadingIndicator: {
+    marginRight: 10,
+  },
+
+  // Header de ruta lista
+  routeHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+
+  routeHeaderText: {
+    color: '#34C759',
+    fontSize: 14,
+    marginLeft: 8,
+    fontWeight: 'bold',
+  },
+
+  routeStatusIcon: {
+    marginRight: 5,
+  },
+
+  // Información detallada de la ruta
+  routeDetailsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  routeInfoItem: {
+    flex: 1,
+  },
+
+  routeInfoLabel: {
+    color: '#888',
+    fontSize: 11,
+    marginBottom: 2,
+  },
+
+  routeInfoValue: {
+    color: 'white',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+
+  // Colores según el provider
+  routeProviderEstimated: {
+    color: '#FFA500',
+  },
+
+  routeProviderReal: {
+    color: '#34C759',
+  },
+
+  routeProviderError: {
+    color: '#FF3B30',
+  },
+
+  // ✅ ===== FIN ESTILOS DE ROUTE INFO =====
   
   // ✅ INFO CARD
   infoCard: {

@@ -12,6 +12,7 @@ export default function PromotionsSection({ onPromotionsPress, onKnowMorePress, 
       onPress={onPromotionsPress}
       activeOpacity={0.8}
     >
+      {/*carta de promociones */}
       <View style={styles.promotionsContent}>
         <View style={styles.promotionsText}>
           <Text style={styles.promotionsTitle}>
@@ -20,9 +21,9 @@ export default function PromotionsSection({ onPromotionsPress, onKnowMorePress, 
               : `Aprovecha\nNuestras\nPromociones`
             }
           </Text>
-          
-          {/* ✅ Restaurar el botón "Conoce más" */}
-          <TouchableOpacity 
+
+          {/*boton de promociones */}
+          <TouchableOpacity
             style={styles.knowMoreButton}
             onPress={onKnowMorePress}
             activeOpacity={0.7}

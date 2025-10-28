@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import TextFieldInput from './TextFieldInput';
-import VehicleTypePicker from './VehicleTypePicker';
 import ContinueButton from './ContinueButton';
 
 export default function RequestTowForm({ 

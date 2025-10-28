@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 export default function LocationInfoCard({ locationData, formatPrice, styles }) {
-  // ✅ Protección contra undefined
+  //evita el undefined
   if (!locationData) {
-    return null; // No renderizar nada si no hay datos
+    return null; //no renderizar nada si no hay datos
   }
 
   return (

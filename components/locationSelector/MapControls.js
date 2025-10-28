@@ -1,4 +1,3 @@
-// components/locationSelector/MapControls.js
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -13,7 +12,7 @@ export default function MapControls({
       position: 'absolute', bottom: 120, right: 20,
       flexDirection: 'column',
     }}>
-      {/* Botón centrar ubicación */}
+      {/*boton para centrar la ubicacion*/}
       <TouchableOpacity
         style={{
           backgroundColor: 'white', padding: 12, borderRadius: 25, 
@@ -28,7 +27,7 @@ export default function MapControls({
         <MaterialCommunityIcons name="crosshairs-gps" size={24} color="#007AFF" />
       </TouchableOpacity>
 
-      {/* Botón ajustar a ruta */}
+      {/*boton para ajustar a ruta*/}
       {routeCoordinates.length > 1 && (
         <TouchableOpacity
           style={{

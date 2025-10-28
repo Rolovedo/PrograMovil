@@ -2,16 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-// Importar utilidades
+//importar utilidades
 import { RouteCalculator } from '../../utils/routeCalculator';
 import { MapHelpers } from '../../utils/mapHelpers';
 
-// Importar componentes modulares
+//importar componentes modulares
 import OriginMarker from './markers/OriginMarker';
 import DestinationMarker from './markers/DestinationMarker';
 import RouteInfo from './RouteInfo';
 import MapInstructions from './MapInstructions';
 import MapControls from './MapControls';
+import MapLoadingState from '../loading/MapLoadingState';
 
 export default function RealMapView({ 
   mapRegion, 
@@ -27,14 +28,14 @@ export default function RealMapView({
   const [calculatingRoute, setCalculatingRoute] = useState(false);
   const [routeInfo, setRouteInfo] = useState(null);
 
-  // ✅ Referencia al MapView para controlar la cámara
+  //referencia al mapview para controlar la camara
   const mapRef = useRef(null);
 
-  // Obtener componentes de mapa
+  //componentes de mapa
   const mapComponents = MapHelpers.getMapComponents();
   const { MapView, Marker, Polyline, PROVIDER_GOOGLE, available } = mapComponents;
 
-  // ✅ Función principal para calcular ruta
+  //funcion principal para calcular ruta
   const calculateRoute = async (origin, destination) => {
     setCalculatingRoute(true);
     
@@ -42,15 +43,15 @@ export default function RealMapView({
       const routeData = await RouteCalculator.calculateRoute(origin, destination);
       processRouteResult(routeData);
     } catch (error) {
-      console.error('❌ Error en cálculo de ruta:', error);
+      console.error('Error en cálculo de ruta:', error);
       const fallbackData = RouteCalculator.calculateEstimatedRoute(origin, destination);
       processRouteResult(fallbackData);
     }
   };
 
-  // ✅ Procesar resultado de ruta
+  //procesar resultado de ruta
   const processRouteResult = (routeData) => {
-    console.log(`✅ Ruta calculada con ${routeData.provider}:`, {
+    console.log(`Ruta calculada con ${routeData.provider}:`, {
       distance: routeData.distance.toFixed(2),
       duration: Math.round(routeData.duration),
       points: routeData.coordinates.length
@@ -70,7 +71,7 @@ export default function RealMapView({
     }
   };
 
-  // ✅ Efecto para calcular ruta automáticamente
+  //efecto para calcular ruta automaticamente
   useEffect(() => {
     if (currentLocation && destinationLocation) {
       calculateRoute(currentLocation, destinationLocation);
@@ -80,42 +81,42 @@ export default function RealMapView({
     }
   }, [currentLocation, destinationLocation]);
 
-  // ✅ Función para centrar en ubicación actual
+  //funcion para centrar en ubicacion actual
   const handleCenterLocation = () => {
     if (!currentLocation || !mapRef.current) {
-      console.log('⚠️ No hay ubicación actual o referencia al mapa');
+      console.log('No hay ubicacion actual o referencia al mapa');
       return;
     }
 
-    console.log('🎯 Centrando en ubicación actual:', currentLocation);
+    console.log('Centrando en ubicación actual:', currentLocation);
 
-    // Crear región centrada en la ubicación actual
+    //crear region centrada en la ubicacion actual
     const region = {
       latitude: currentLocation.latitude,
       longitude: currentLocation.longitude,
-      latitudeDelta: 0.01, // Zoom más cercano
+      latitudeDelta: 0.01, //cercania del zoom
       longitudeDelta: 0.01,
     };
 
-    // Animar hacia la ubicación actual
-    mapRef.current.animateToRegion(region, 1000); // 1000ms de duración
+    //animar hacia la ubicación actual
+    mapRef.current.animateToRegion(region, 1000); //duracion 1000ms
   };
 
-  // ✅ Función para ajustar vista a toda la ruta
+  //funcion para ajustar vista a toda la ruta
   const handleFitToRoute = () => {
     if (!mapRef.current || routeCoordinates.length < 2) {
-      console.log('⚠️ No hay ruta para ajustar vista');
+      console.log('No hay ruta para ajustar vista');
       return;
     }
 
-    console.log('🎯 Ajustando vista a la ruta completa');
+    console.log('Ajustando vista a la ruta completa');
 
-    // Usar fitToCoordinates para mostrar toda la ruta
+    //usar fitToCoordinates para mostrar toda la ruta
     mapRef.current.fitToCoordinates(routeCoordinates, {
       edgePadding: {
         top: 100,
         right: 50,
-        bottom: 200, // Más espacio abajo para los controles
+        bottom: 200,
         left: 50,
       },
       animated: true,
@@ -124,25 +125,21 @@ export default function RealMapView({
 
   const handleMapReady = () => {
     setMapReady(true);
-    console.log('🗺️ Mapa cargado y listo');
+    console.log('Mapa cargado y listo');
   };
 
-  // Loading state
+  //carga previa al mapa
   if (loading || !mapRegion || !currentLocation) {
     return (
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#1a1a1a'
-      }}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={{ color: 'white', marginTop: 10 }}>Cargando mapa...</Text>
-      </View>
+      <MapLoadingState 
+        message="Obteniendo ubicación..."
+        iconName="crosshairs-gps"
+        iconSize={50}
+      />
     );
   }
 
-  // Mapa disponible
+  //mapa disponible
   if (available && MapView) {
     const mapProps = MapHelpers.getMapProps(mapRegion, onMapPress, handleMapReady);
     const polylineProps = MapHelpers.getPolylineProps(routeCoordinates, routeInfo?.provider);
@@ -153,9 +150,9 @@ export default function RealMapView({
         <MapView 
           {...mapProps} 
           provider={PROVIDER_GOOGLE}
-          ref={mapRef} // ✅ Referencia para controlar el mapa
+          ref={mapRef}
         >
-          {/* ✅ Marcadores nativos con keys estáticas */}
+          {/*marcadores nativos con keys estaticas */}
           {currentLocation && (
             <OriginMarker 
               key="origin-marker-static"
@@ -172,12 +169,12 @@ export default function RealMapView({
             />
           )}
 
-          {/* Polyline de ruta */}
+          {/*polyline de ruta */}
           {routeCoordinates.length > 0 && (
             <Polyline {...polylineProps} />
           )}
 
-          {/* Puntos intermedios más estables */}
+          {/*puntos intermedios mas estables */}
           {waypoints.map((coord, index) => (
             <Marker
               key={`waypoint-${coord.latitude.toFixed(6)}-${coord.longitude.toFixed(6)}`}
@@ -199,7 +196,7 @@ export default function RealMapView({
           ))}
         </MapView>
 
-        {/* Componentes de UI */}
+        {/*componentes de UI */}
         <MapInstructions destinationLocation={destinationLocation} />
         <RouteInfo 
           destinationLocation={destinationLocation}
@@ -208,34 +205,37 @@ export default function RealMapView({
         />
         <MapControls 
           routeCoordinates={routeCoordinates}
-          onCenterLocation={handleCenterLocation} // ✅ Función implementada
-          onFitToRoute={handleFitToRoute} // ✅ Función mejorada
+          onCenterLocation={handleCenterLocation}
+          onFitToRoute={handleFitToRoute}
+          disabled={!mapReady}
         />
 
-        {/* Indicador de carga */}
+        {/*inicialización del mapa */}
         {!mapReady && (
           <View style={{
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: 'rgba(26, 26, 26, 0.8)', justifyContent: 'center', alignItems: 'center',
+            position: 'absolute', 
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(26, 26, 26, 0.8)', 
             zIndex: 1000,
           }}>
-            <ActivityIndicator size="large" color="#007AFF" />
-            <Text style={{ color: 'white', marginTop: 10 }}>
-              Inicializando mapa...
-            </Text>
+            <MapLoadingState 
+              message="Inicializando mapa..."
+              iconName="map-search"
+              backgroundColor="transparent"
+            />
           </View>
         )}
       </View>
     );
   }
 
-  // Fallback: Mapa no disponible
+  //mapa no disponible
   return (
-    <View style={{ flex: 1, backgroundColor: '#1a1a1a', justifyContent: 'center', alignItems: 'center' }}>
-      <MaterialCommunityIcons name="google-maps" size={80} color="#007AFF" />
-      <Text style={{ color: 'white', fontSize: 18, marginTop: 20, textAlign: 'center' }}>
-        Mapa no disponible{'\n'}Configurando dependencias...
-      </Text>
-    </View>
+    <MapLoadingState 
+      message="Mapa no disponible&#10;Configurando dependencias..."
+      iconName="google-maps"
+      iconSize={80}
+      showIcon={true}
+    />
   );
 }

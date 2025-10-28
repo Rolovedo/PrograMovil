@@ -12,6 +12,7 @@ export default function SuggestionsSection({ onSuggestionPress, styles }) {
         {user.isAuthenticated ? `Sugerencias` : 'Sugerencias'}
       </Text>
       
+      {/*apartado de sugerencias de servicio*/}
       <View style={styles.suggestionsGrid}>
         <TouchableOpacity 
           style={styles.suggestionCard}

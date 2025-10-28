@@ -14,6 +14,7 @@ export default function OriginMarker({ Marker, coordinate }) {
       identifier="origin"
       anchor={{ x: 0.5, y: 0.5 }}
     >
+      {/*marcador de origen renderizado*/}
       <MaterialCommunityIcons 
         name="account-circle" 
         size={40} 

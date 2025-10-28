@@ -10,9 +10,8 @@ const DestinationMarker = memo(({ Marker, coordinate }) => {
       title="Destino del servicio"
       description="Punto de entrega"
       identifier="destination"
-      // ✅ Usar marcador nativo rojo
       pinColor="red"
-      // ✅ Optimizaciones para evitar parpadeo
+      //evita parpadeo
       flat={true}
       tracksViewChanges={false}
     />

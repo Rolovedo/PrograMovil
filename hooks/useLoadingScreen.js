@@ -8,7 +8,7 @@ export function useLoadingScreen() {
     };
   }, []);
 
-  // Función para diferentes tipos de loading si fuera necesario
+  // Función para diferentes tipos de loading
   const getLoadingType = useCallback((type = 'auth') => {
     switch (type) {
       case 'auth':
@@ -25,6 +25,22 @@ export function useLoadingScreen() {
         return {
           title: 'Navegando...',
           subtitle: 'Preparando la siguiente pantalla'
+        };
+      //loadings para mapas
+      case 'map_location':
+        return {
+          title: 'Obteniendo ubicación...',
+          subtitle: 'Configurando tu posición en el mapa'
+        };
+      case 'map_initializing':
+        return {
+          title: 'Inicializando mapa...',
+          subtitle: 'Cargando vista satelital'
+        };
+      case 'map_unavailable':
+        return {
+          title: 'Mapa no disponible',
+          subtitle: 'Configurando dependencias del mapa'
         };
       default:
         return {
