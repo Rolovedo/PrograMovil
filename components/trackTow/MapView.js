@@ -11,7 +11,7 @@ export default function MapView({ driverStatus, styles }) {
         <Text style={styles.mapSubtext}>Ubicación del conductor</Text>
       </View>
       
-      {/* Puntos en el mapa */}
+      {/*puntos en el mapa*/}
       <View style={styles.originPoint}>
         <MaterialCommunityIcons name="map-marker" size={30} color="#34C759" />
       </View>

@@ -6,7 +6,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { towCompletedScreenStyles as styles } from '../styles/towCompletedScreenStyle';
 
-// Importar componentes modulares
+//componentes modulares
 import TowCompletedHeader from '../components/towCompleted/TowCompletedHeader';
 import SuccessSection from '../components/towCompleted/SuccessSection';
 import ServiceSummaryCard from '../components/towCompleted/ServiceSummaryCard';
@@ -14,7 +14,7 @@ import DriverCard from '../components/towCompleted/DriverCard';
 import ActionButtons from '../components/towCompleted/ActionButtons';
 import ThanksCard from '../components/towCompleted/ThanksCard';
 
-// Importar hook personalizado
+//hook personalizado
 import { useTowCompletedActions } from '../hooks/useTowCompletedActions';
 
 export default function TowCompletedScreen({ navigation, route }) {

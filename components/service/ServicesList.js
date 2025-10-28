@@ -9,7 +9,7 @@ export default function ServicesList({ data, onServicePress, styles }) {
     <TouchableOpacity 
       style={[
         styles.serviceCard,
-        // Resaltar si este servicio está seleccionado
+        //resaltar si este servicio esta seleccionado
         selectedService && selectedService.name === item.titulo && {
           borderWidth: 2,
           borderColor: '#4CAF50'
@@ -26,7 +26,7 @@ export default function ServicesList({ data, onServicePress, styles }) {
       <Text style={styles.serviceTitle}>{item.titulo}</Text>
       {item.promo ? <Text style={styles.promoText}>Promo</Text> : null}
       
-      {/* Indicador de servicio seleccionado */}
+      {/*indicador de servicio seleccionado*/}
       {selectedService && selectedService.name === item.titulo && (
         <Text style={styles.selectedIndicator}>✓ Seleccionado</Text>
       )}

@@ -8,7 +8,7 @@ export function useLoadingScreen() {
     };
   }, []);
 
-  // Función para diferentes tipos de loading
+  //funcion para diferentes tipos de loading
   const getLoadingType = useCallback((type = 'auth') => {
     switch (type) {
       case 'auth':

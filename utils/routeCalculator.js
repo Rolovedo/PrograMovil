@@ -1,33 +1,32 @@
-// utils/routeCalculator.js
 export class RouteCalculator {
   static async calculateRoute(origin, destination) {
     console.log('Iniciando cálculo de ruta:', { origin, destination });
 
     try {
-      // Intentar primero con OpenRouteService
+      //intentar primero con OpenRouteService
       const openRouteResult = await this.calculateWithOpenRoute(origin, destination);
       if (openRouteResult.success) {
         return openRouteResult.data;
       }
 
-      // Fallback: Usar OSRM
+      //usar OSRM
       const osrmResult = await this.calculateWithOSRM(origin, destination);
       if (osrmResult.success) {
         return osrmResult.data;
       }
 
-      // Último fallback: Cálculo estimado
+      //calculo estimado
       return this.calculateEstimatedRoute(origin, destination);
 
     } catch (error) {
-      console.error('❌ Error en cálculo de ruta:', error);
+      console.error('Error en calculo de ruta:', error);
       return this.calculateEstimatedRoute(origin, destination);
     }
   }
 
   static async calculateWithOpenRoute(origin, destination) {
     try {
-      console.log('🔄 Intentando OpenRouteService...');
+      console.log('Intentando OpenRouteService...');
       
       const API_KEY = '5b3ce3597851110001cf6248a4c7b7bf7a4d4d3b8ae8c0e0a8d7e7b7';
       const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${origin.longitude},${origin.latitude}&end=${destination.longitude},${destination.latitude}&format=geojson&geometry_format=geojson&instructions=true`;
@@ -68,14 +67,14 @@ export class RouteCalculator {
 
       return { success: false };
     } catch (error) {
-      console.log('⚠️ OpenRouteService falló:', error.message);
+      console.log('OpenRouteService falló:', error.message);
       return { success: false };
     }
   }
 
   static async calculateWithOSRM(origin, destination) {
     try {
-      console.log('🔄 Intentando OSRM...');
+      console.log('Intentando OSRM...');
       
       const url = `https://router.project-osrm.org/route/v1/driving/${origin.longitude},${origin.latitude};${destination.longitude},${destination.latitude}?overview=full&geometries=geojson`;
       
@@ -110,17 +109,17 @@ export class RouteCalculator {
 
       return { success: false };
     } catch (error) {
-      console.log('⚠️ OSRM falló:', error.message);
+      console.log('OSRM falló:', error.message);
       return { success: false };
     }
   }
 
   static calculateEstimatedRoute(origin, destination) {
-    console.log('📏 Usando cálculo estimado...');
+    console.log('Usando calculo estimado...');
     
     const straightCoordinates = [origin, destination];
     
-    // Formula Haversine para distancia
+    //formula haversine para distancia
     const R = 6371; // Radio terrestre en km
     const dLat = (destination.latitude - origin.latitude) * Math.PI / 180;
     const dLon = (destination.longitude - origin.longitude) * Math.PI / 180;
@@ -131,11 +130,11 @@ export class RouteCalculator {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     const straightDistance = R * c;
     
-    // Factor de corrección para calles reales
+    //correccion para calles reales
     const cityFactor = 1.4;
     const distance = straightDistance * cityFactor;
     
-    // Estimación de tiempo (velocidad promedio urbana 25 km/h)
+    //estimacion de tiempo (velocidad promedio urbana 25 km/h)
     const duration = distance / 25 * 60;
     
     return {

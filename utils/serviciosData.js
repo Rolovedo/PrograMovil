@@ -27,17 +27,17 @@ export const serviciosData = [
   },
 ];
 
-// Función para obtener servicio por ID
+//funcion para obtener servicio por ID
 export const getServicioById = (id) => {
   return serviciosData.find(servicio => servicio.id === id);
 };
 
-// Función para obtener servicios con promoción
+//funcion para obtener servicios con promoción
 export const getServiciosConPromo = () => {
   return serviciosData.filter(servicio => servicio.promo);
 };
 
-// Función para obtener todos los servicios
+//funcion para obtener todos los servicios
 export const getAllServicios = () => {
   return serviciosData;
 };

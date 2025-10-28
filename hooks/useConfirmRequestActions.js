@@ -17,10 +17,10 @@ export function useConfirmRequestActions(navigation, createRequest) {
     setIsCreating(true);
     
     try {
-      // Crear la solicitud en Supabase
+      //crear la solicitud en Supabase
       const requestResult = await createRequest(formData, serviceType, urgency, price);
       
-      // Navegar a TrackTowScreen con el ID de la solicitud
+      //navegar a TrackTowScreen con el ID de la solicitud
       navigation.navigate('TrackTowScreen', {
         formData,
         serviceType,

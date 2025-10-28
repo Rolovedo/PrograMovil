@@ -1,16 +1,15 @@
-// pantallas/LocationSelectorScreen.js
 import React from 'react';
 import { View, StatusBar, Text, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { locationSelectorScreenStyles as styles } from '../styles/locationSelectorScreenStyle';
 
-// Importar componentes modulares
+//componentes modulares
 import LocationHeader from '../components/locationSelector/LocationHeader';
 import RealMapView from '../components/locationSelector/RealMapView';
 import LocationInfoCard from '../components/locationSelector/LocationInfoCard';
 import ContinueButton from '../components/locationSelector/ContinueButton';
 
-// Importar hook personalizado
+//hook personalizado
 import { useLocationSelector } from '../hooks/useLocationSelector';
 
 export default function LocationSelectorScreen({ navigation, route }) {
@@ -24,7 +23,7 @@ export default function LocationSelectorScreen({ navigation, route }) {
     handleMapPress,
     handleGoBack,
     handleContinue,
-    handleRouteCalculated, // ✅ Nueva función
+    handleRouteCalculated,
     formatPrice,
     canContinue,
   } = useLocationSelector(navigation, route);
@@ -42,7 +41,7 @@ export default function LocationSelectorScreen({ navigation, route }) {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
       
-      {/* Header fijo en la parte superior */}
+      {/*header fijo en la parte superior*/}
       <View style={styles.header}>
         <LocationHeader 
           onGoBack={handleGoBack}
@@ -51,7 +50,7 @@ export default function LocationSelectorScreen({ navigation, route }) {
       </View>
 
       {loading ? (
-        /* Loading screen */
+        /*loading screen */
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#007AFF" />
           <Text style={styles.loadingText}>Obteniendo tu ubicación...</Text>
@@ -61,20 +60,20 @@ export default function LocationSelectorScreen({ navigation, route }) {
         </View>
       ) : (
         <>
-          {/* Área del mapa - ocupa todo el espacio disponible */}
+          {/*area del mapa*/}
           <View style={styles.mapArea}>
             <RealMapView
               mapRegion={mapRegion}
               currentLocation={currentLocation}
               destinationLocation={destinationLocation}
               onMapPress={handleMapPress}
-              onRouteCalculated={handleRouteCalculated} // ✅ Pasar función
+              onRouteCalculated={handleRouteCalculated}
               loading={false}
               styles={styles}
             />
           </View>
 
-          {/* Panel inferior fijo */}
+          {/*panel inferior fijo*/}
           <View style={styles.bottomPanel}>
             <LocationInfoCard 
               locationData={locationData}

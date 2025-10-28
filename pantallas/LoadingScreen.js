@@ -2,16 +2,16 @@ import React from 'react';
 import { View } from 'react-native';
 import { loadingScreenStyles as styles } from '../styles/loadingScreenStyle';
 
-// Importar componentes modulares
+//componentes modulares
 import LoadingIcon from '../components/loading/LoadingIcon';
 import LoadingText from '../components/loading/LoadingText';
 import LoadingSpinner from '../components/loading/LoadingSpinner';
 
-// Importar hook personalizado
+//hook personalizado
 import { useLoadingScreen } from '../hooks/useLoadingScreen';
 
 export default function LoadingScreen({ loadingType = 'auth' }) {
-  // Obtener mensajes del hook
+  //mensajes del hook
   const { getLoadingType } = useLoadingScreen();
   const { title, subtitle } = getLoadingType(loadingType);
 

@@ -14,7 +14,7 @@ import LogoutButton from '../components/user/LogoutButton';
 //importamos el hook personalizado
 import { useUsuarioActions } from '../hooks/useUsuarioActions';
 
-export default function UsuarioScreen() {
+export default function UsuarioScreen({navigation}) {
   //se obtienen todas las funciones del hook
   const {
     handleBackPress,
@@ -25,7 +25,7 @@ export default function UsuarioScreen() {
     handleDriverPress,
     handleHubPress,
     handleAvatarPress,
-  } = useUsuarioActions();
+  } = useUsuarioActions(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

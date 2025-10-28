@@ -13,7 +13,6 @@ export default function HomeScreen({ navigation }) {
 
   const {
     handleProfilePress,
-    handleMainCardPress,
     handleSuggestionPress,
     handlePromotionsPress,
     handleKnowMorePress,
@@ -23,7 +22,7 @@ export default function HomeScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {/* Header */}
+      {/*header*/}
       <HomeHeader onProfilePress={handleProfilePress} styles={styles} />
 
       <ScrollView
@@ -31,13 +30,13 @@ export default function HomeScreen({ navigation }) {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Main Service Card */}
-        <WelcomeMessage onMainCardPress={handleMainCardPress} styles={styles} />
+        {/*carta de bienvenida*/}
+        <WelcomeMessage styles={styles} />
 
-        {/* Suggestions Section */}
+        {/*sugerencias*/}
         <SuggestionsSection onSuggestionPress={handleSuggestionPress} styles={styles} />
 
-        {/* Promotions Section */}
+        {/*promociones*/}
         <PromotionsSection
           onPromotionsPress={handlePromotionsPress}
           onKnowMorePress={handleKnowMorePress}

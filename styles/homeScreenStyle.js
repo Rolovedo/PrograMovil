@@ -29,6 +29,42 @@ export const homeScreenStyles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
+
+  // ✅ ===== ESTILOS DE WELCOME MESSAGE =====
+  welcomeGradientContainer: {
+    borderRadius: 18,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
+  },
+  welcomeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: -5,
+  },
+  welcomeImage: {
+    width: 210,
+    height: 160,
+    marginRight: 20,
+  },
+  welcomeTextContainer: {
+    flex: 1,
+  },
+  welcomeTitle: {
+    fontSize: 25,
+    fontWeight: '700',
+    color: '#f8f8f8ff',
+    letterSpacing: 0.3,
+  },
+  welcomeName: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: '#ff9c1aff',
+    letterSpacing: 0.3,
+  },
+  // ✅ ===== FIN ESTILOS DE WELCOME MESSAGE =====
+
   logo: {
     width: 100,
     height: 100,

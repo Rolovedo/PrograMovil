@@ -1,5 +1,5 @@
 export const MapHelpers = {
-  // Verificar disponibilidad de react-native-maps
+  //verificar disponibilidad de react-native-maps
   getMapComponents: () => {
     let MapView, Marker, Polyline, PROVIDER_GOOGLE;
     try {
@@ -15,12 +15,44 @@ export const MapHelpers = {
     }
   },
 
-  // Filtrar puntos intermedios para waypoints
+  //crear region del mapa
+  createMapRegion: (latitude, longitude, zoom = 0.015) => ({
+    latitude,
+    longitude,
+    latitudeDelta: zoom,
+    longitudeDelta: zoom,
+  }),
+
+  //crear region que incluya multiples puntos
+  createRegionFromPoints: (points, padding = 0.01) => {
+    if (!points || points.length === 0) return null;
+
+    let minLat = points[0].latitude;
+    let maxLat = points[0].latitude;
+    let minLng = points[0].longitude;
+    let maxLng = points[0].longitude;
+
+    points.forEach(point => {
+      minLat = Math.min(minLat, point.latitude);
+      maxLat = Math.max(maxLat, point.latitude);
+      minLng = Math.min(minLng, point.longitude);
+      maxLng = Math.max(maxLng, point.longitude);
+    });
+
+    return {
+      latitude: (minLat + maxLat) / 2,
+      longitude: (minLng + maxLng) / 2,
+      latitudeDelta: (maxLat - minLat) + padding,
+      longitudeDelta: (maxLng - minLng) + padding,
+    };
+  },
+
+  //filtrar puntos intermedios para waypoints
   getWaypoints: (coordinates, interval = 80) => {
     return coordinates.filter((_, index) => index % interval === 0 && index > 0);
   },
 
-  // Configurar propiedades del mapa
+  //configurar propiedades del mapa
   getMapProps: (mapRegion, onMapPress, onMapReady) => ({
     style: { flex: 1 },
     region: mapRegion,
@@ -34,7 +66,7 @@ export const MapHelpers = {
     onMapReady,
   }),
 
-  // Configurar propiedades de Polyline
+  //configurar propiedades de polyline
   getPolylineProps: (coordinates, provider) => ({
     coordinates,
     strokeColor: "#007AFF",

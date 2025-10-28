@@ -7,28 +7,28 @@ export default function ServiceSummaryCard({ formData, styles }) {
     <View style={styles.summaryCard}>
       <Text style={styles.cardTitle}>Resumen del Servicio</Text>
       
-      {/* 📍 Origen */}
+      {/*origen */}
       <View style={styles.summaryRow}>
         <MaterialCommunityIcons name="map-marker" size={20} color="#007AFF" />
         <Text style={styles.summaryLabel}>Origen:</Text>
         <Text style={styles.summaryValue}>{formData.origen}</Text>
       </View>
       
-      {/* 🎯 Destino */}
+      {/*destino*/}
       <View style={styles.summaryRow}>
         <MaterialCommunityIcons name="flag-checkered" size={20} color="#007AFF" />
         <Text style={styles.summaryLabel}>Destino:</Text>
         <Text style={styles.summaryValue}>{formData.destino}</Text>
       </View>
-      
-      {/* 📱 Teléfono del usuario logueado */}
+
+      {/*telefono del usuario logueado*/}
       <View style={styles.summaryRow}>
         <MaterialCommunityIcons name="phone" size={20} color="#007AFF" />
         <Text style={styles.summaryLabel}>Teléfono:</Text>
         <Text style={styles.summaryValue}>{formData.telefono || 'No disponible'}</Text>
       </View>
 
-      {/* ✅ Información adicional si está disponible */}
+      {/*informacion adicional si está disponible*/}
       {formData.distance && (
         <View style={styles.summaryRow}>
           <MaterialCommunityIcons name="map-marker-distance" size={20} color="#007AFF" />

@@ -3,24 +3,24 @@ import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { actividadScreenStyles as styles } from '../styles/actividadScreenStyle';
 
-// Importar componentes modulares
+//componentes modulares
 import ActivityHeader from '../components/activity/ActivityHeader';
 import UpcomingServices from '../components/activity/UpcomingServices';
 import PastServicesHeader from '../components/activity/PastServicesHeader';
 import ServiceHistoryCard from '../components/activity/ServiceHistoryCard';
 
-// Importar hook personalizado
+//hook personalizado
 import { useActivityActions } from '../hooks/useActivityActions';
 
-export default function ActividadScreen() {
-  // Obtener todas las funciones del hook
+export default function ActividadScreen({navigation}) {
+  //obtener todas las funciones del hook
   const {
     handleRequestTow,
     handleRate,
     handleRecharge,
     handleFilter,
     handleServiceDetails,
-  } = useActivityActions();
+  } = useActivityActions(navigation);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +33,7 @@ export default function ActividadScreen() {
           styles={styles}
         />
 
-        {/* Pasado section */}
+        {/*pasado section */}
         <View style={styles.section}>
           <PastServicesHeader 
             onFilter={handleFilter}

@@ -7,7 +7,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { trackTowScreenStyles as styles } from '../styles/trackTowScreenStyle';
 
-// Importar componentes modulares
+//componentes modulares
 import TrackTowHeader from '../components/trackTow/TrackTowHeader';
 import MapView from '../components/trackTow/MapView';
 import StatusCard from '../components/trackTow/StatusCard';
@@ -15,7 +15,7 @@ import DriverCard from '../components/trackTow/DriverCard';
 import ServiceInfoCard from '../components/trackTow/ServiceInfoCard';
 import ActionButtons from '../components/trackTow/ActionButtons';
 
-// Importar hook personalizado
+//hook personalizado
 import { useTrackTowActions } from '../hooks/useTrackTowActions';
 
 export default function TrackTowScreen({ navigation, route }) {

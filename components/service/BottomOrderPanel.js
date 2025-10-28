@@ -12,7 +12,7 @@ export default function BottomOrderPanel({ data, onOrderPress, styles }) {
         <Text style={styles.bottomText}>{data[0].precio}</Text>
       </View>
       
-      {/* Mostrar información del usuario y servicio seleccionado */}
+      {/*mostrar info del usuario y servicio seleccionado */}
       {user.isAuthenticated && (
         <Text style={styles.userInfo}>
           Usuario: {user.name} | Rating: {user.rating} ⭐

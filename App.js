@@ -7,7 +7,7 @@ import AuthStack from './navigators/AuthStack';
 import AppStack from './navigators/AppStack';
 import LoadingScreen from './pantallas/LoadingScreen';
 
-// Importar el contexto existente
+//importar el contexto existente
 import { AppProvider } from './context/AppContext';
 
 function AppNavigator() {

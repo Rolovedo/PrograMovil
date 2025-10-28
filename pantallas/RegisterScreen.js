@@ -8,11 +8,11 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { registerScreenStyles as styles } from '../styles/registerScreenStyle';
 
-// Importar componentes modulares
+//componentes modulares
 import RegisterHeader from '../components/register/RegisterHeader';
 import RegisterForm from '../components/register/RegisterForm';
 
-// Importar hook personalizado
+//hook personalizado
 import { useRegisterActions } from '../hooks/useRegisterActions';
 
 export default function RegisterScreen({ navigation }) {

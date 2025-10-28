@@ -14,7 +14,7 @@ export function useRegisterActions(navigation) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
-  const { signUp, signOut } = useAuth(); // ✅ Agregar signOut
+  const { signUp, signOut } = useAuth();
 
   const handleInputChange = useCallback((field, value) => {
     setFormData(prev => ({
@@ -55,17 +55,13 @@ export function useRegisterActions(navigation) {
   }, [formData]);
 
   const handleRegister = useCallback(async () => {
-    console.log('🟠 handleRegister ejecutado');
     
     if (!validateForm()) {
-      console.log('❌ validateForm retornó false');
+      console.log('validateForm retornó false');
       return;
     }
-    
-    console.log('✅ Validación pasada, continuando...');
-  
+    console.log('Validacion pasada, continuando...');
     setIsLoading(true);
-    
     try {
       const { name, email, password, phone } = formData;
       
@@ -75,22 +71,20 @@ export function useRegisterActions(navigation) {
         role: 'client' 
       };
       
-      console.log('📤 Llamando a signUp con:', { email, userData });
       const result = await signUp(email, password, userData);
-      console.log('📥 Resultado del signUp:', result);
+      console.log('Resultado del signUp:', result);
       
       if (result.success) {
-        // ✅ FORZAR LOGOUT después del registro exitoso
-        console.log('🚪 Forzando logout después del registro exitoso...');
+        //forzar logout despues del registro exitoso
         try {
           await signOut();
-          console.log('✅ Logout completado');
+          console.log('Logout completado');
         } catch (logoutError) {
-          console.error('⚠️ Error en logout:', logoutError);
-          // Continuar aunque el logout falle
+          console.error('Error en logout:', logoutError);
+          //continuar aunque el logout falle
         }
         
-        // ✅ Mostrar alerta y redirigir al login
+        //redirigir al login
         Alert.alert(
           'Usuario Creado Exitosamente',
           'Tu cuenta ha sido creada correctamente. Ahora debes iniciar sesión con tus credenciales.',
@@ -98,7 +92,6 @@ export function useRegisterActions(navigation) {
             {
               text: 'OK',
               onPress: () => {
-                console.log('📱 Navegando a LoginScreen...');
                 navigation.navigate('LoginScreen');
               }
             }
@@ -108,12 +101,11 @@ export function useRegisterActions(navigation) {
         Alert.alert('Error', result.error || 'Error al crear la cuenta');
       }
     } catch (error) {
-      console.error('❌ Error en handleRegister:', error);
       Alert.alert('Error', 'Error al crear la cuenta');
     } finally {
       setIsLoading(false);
     }
-  }, [formData, validateForm, signUp, signOut, navigation]); // ✅ Agregar signOut a dependencies
+  }, [formData, validateForm, signUp, signOut, navigation]);
 
   const handleLogin = useCallback(() => {
     navigation.navigate('LoginScreen');

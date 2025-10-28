@@ -8,11 +8,11 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { loginScreenStyles as styles } from '../styles/loginScreenStyle';
 
-// Importar componentes modulares
+//componentes modulares
 import LoginHeader from '../components/login/LoginHeader';
 import LoginForm from '../components/login/LoginForm';
 
-// Importar hook personalizado
+//hook personalizado
 import { useLoginActions } from '../hooks/useLoginActions';
 
 export default function LoginScreen({ navigation }) {

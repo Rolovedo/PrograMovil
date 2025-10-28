@@ -1,4 +1,3 @@
-// components/locationSelector/markers/DestinationMarker.js
 import React, { memo } from 'react';
 
 const DestinationMarker = memo(({ Marker, coordinate }) => {
@@ -11,8 +10,7 @@ const DestinationMarker = memo(({ Marker, coordinate }) => {
       description="Punto de entrega"
       identifier="destination"
       pinColor="red"
-      //evita parpadeo
-      flat={true}
+      flat={true} //evita renderizar
       tracksViewChanges={false}
     />
   );

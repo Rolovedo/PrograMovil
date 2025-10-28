@@ -8,7 +8,7 @@ export function useTrackTowActions(navigation, route) {
   const [driverInfo, setDriverInfo] = useState(null);
 
   useEffect(() => {
-    // Simular búsqueda de conductor
+    //simular busqueda de conductor
     const timer1 = setTimeout(() => {
       setDriverStatus('found');
       setDriverInfo({
@@ -20,12 +20,12 @@ export function useTrackTowActions(navigation, route) {
       });
     }, 3000);
 
-    // Simular conductor en camino
+    //simular conductor en camino
     const timer2 = setTimeout(() => {
       setDriverStatus('arriving');
     }, 8000);
 
-    // Simular conductor llegando
+    //simular conductor llegando
     const timer3 = setTimeout(() => {
       setDriverStatus('arrived');
     }, 15000);

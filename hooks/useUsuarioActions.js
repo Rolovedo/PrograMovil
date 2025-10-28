@@ -1,16 +1,16 @@
 import { useAppContext } from '../context/AppContext';
 
-export function useUsuarioActions() {
+export function useUsuarioActions(navigation) {
   const { user, setUser, setIsLoading } = useAppContext();
 
   const handleBackPress = () => {
     console.log('Botón de regresar presionado');
-    // Navegacion de regreso
+    navigation.navigate('Inicio');
   };
 
   const handleActivityPress = () => {
     console.log('Botón de Actividad presionado');
-    // Navegacion a actividad
+    navigation.navigate('Actividad');
   };
 
   const handleConfigPress = () => {
@@ -23,22 +23,26 @@ export function useUsuarioActions() {
 
   const handleHelpPress = () => {
     console.log('Ayuda presionada');
-    // Navegacion a ayuda
+    // Navegación a ayuda
+    // navigation.navigate('Help');
   };
 
   const handleMessagesPress = () => {
     console.log('Mensajes presionados');
-    // Navegacion a mensajes
+    // Navegación a mensajes
+    // navigation.navigate('Messages');
   };
 
   const handleDriverPress = () => {
     console.log('Conductor de Grúa presionado');
-    // Navegacion a conductor de grua
+    // Navegación a conductor de grúa
+    // navigation.navigate('DriverMode');
   };
 
   const handleHubPress = () => {
     console.log('HUB de negocios presionado');
-    // Navegacion a HUB de negocios
+    // Navegación a HUB de negocios
+    // navigation.navigate('BusinessHub');
   };
 
   const handleAvatarPress = () => {

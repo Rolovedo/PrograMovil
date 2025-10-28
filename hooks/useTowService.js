@@ -23,7 +23,7 @@ export const useTowService = () => {
           telefono: formData.telefono,
         });
 
-        // Validar campos requeridos
+        //validar campos requeridos
         if (!formData.telefono) throw new Error('Se requiere un número de teléfono');
         if (!formData.origen) throw new Error('Se requiere dirección de origen');
         if (!formData.destino) throw new Error('Se requiere dirección de destino');
@@ -43,13 +43,13 @@ export const useTowService = () => {
           user.id
         );
 
-        // Delegar la inserción a TowService.createTowRequest
+        //delegar la inserción a TowService.createTowRequest
         const data = await TowService.createTowRequest(requestData);
 
-        console.log('✅ Solicitud creada (useTowService):', data.id);
+        console.log('Solicitud creada (useTowService):', data.id);
         return data;
       } catch (err) {
-        console.error('❌ Error creando solicitud (useTowService):', err);
+        console.error('Error creando solicitud (useTowService):', err);
         setError(err.message || String(err));
         throw err;
       } finally {

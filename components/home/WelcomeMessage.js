@@ -1,62 +1,28 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { useAppContext } from '../../context/AppContext';
+import { homeScreenStyles } from '../../styles/homeScreenStyle';
 
-export default function WelcomeMessage({ onMainCardPress, styles = {} }) {
+export default function WelcomeMessage({ styles = {} }) {
   const { user } = useAppContext() || {};
   const isAuth = user && user.isAuthenticated;
   const name = (user && user.name) || 'Invitado';
 
-  const content = (
-    <View style={[defaultStyles.container]}>
+  return (
+    <View style={[homeScreenStyles.welcomeContainer, styles.container]}>
       <Image
         source={require('../../assets/rentalCar.png')}
-        style={[defaultStyles.image, styles.image]}
+        style={[homeScreenStyles.welcomeImage, styles.image]}
       />
 
-      <View style={[defaultStyles.textContainer, styles.textContainer]}>
-        <Text style={[defaultStyles.title]}>{isAuth ? 'Bienvenido' : 'Bienvenido'}</Text>
-        <Text style={[defaultStyles.name]} numberOfLines={1}>
+      <View style={[homeScreenStyles.welcomeTextContainer, styles.textContainer]}>
+        <Text style={[homeScreenStyles.welcomeTitle, styles.title]}>
+          {isAuth ? 'Bienvenido' : 'Bienvenido'}
+        </Text>
+        <Text style={[homeScreenStyles.welcomeName, styles.name]} numberOfLines={1}>
           {isAuth ? name : 'Invitado'}
         </Text>
       </View>
     </View>
   );
-
-  return content;
 }
-
-const defaultStyles = StyleSheet.create({
-  gradientContainer: {
-    borderRadius: 18,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: -5,
-  },
-  image: {
-    width: 210,
-    height: 160,
-    marginRight: 20,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: '700',
-    color: '#f8f8f8ff',
-    letterSpacing: 0.3,
-  },
-  name: {
-    fontSize: 30,
-    fontWeight: '700',
-    color: '#ff9c1aff',
-    letterSpacing: 0.3,
-  },
-});

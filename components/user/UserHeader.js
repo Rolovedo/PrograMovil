@@ -19,13 +19,13 @@ export default function UserHeader({ onBackPress, styles }) {
       </TouchableOpacity>
       
       <View style={styles.userInfo}>
-        {/* ✅ Usar el primer nombre del usuario autenticado */}
+        {/*usar el primer nombre del usuario autenticado*/}
         <Text style={styles.title}>{user.name}</Text>
         <View style={styles.rating}>
           <MaterialCommunityIcons name="star" size={16} color="#FFD700" />
           <Text style={styles.ratingText}>{user.rating}</Text>
         </View>
-        {/* Mostrar email si está disponible */}
+        {/*mostrar email si esta disponible*/}
         {user.email && (
           <Text style={styles.email}>{user.email}</Text>
         )}

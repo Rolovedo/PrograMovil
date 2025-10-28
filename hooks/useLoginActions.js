@@ -27,8 +27,7 @@ export function useLoginActions(navigation) {
       const result = await signIn(email, password);
       
       if (result.success) {
-        console.log('✅ Login exitoso');
-        // La navegación se manejará automáticamente por el AuthProvider
+        console.log('Login exitoso');
       } else {
         Alert.alert('Error', result.error || 'Error al iniciar sesión');
       }

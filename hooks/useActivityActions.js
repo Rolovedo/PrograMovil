@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAppContext } from '../context/AppContext';
 
-export function useActivityActions() {
+export function useActivityActions(navigation) {
   const { 
     user, 
     selectedService, 
@@ -10,47 +10,40 @@ export function useActivityActions() {
     setIsLoading 
   } = useAppContext();
 
+  //navegacion para solicitar nueva grua
   const handleRequestTow = useCallback(() => {
     console.log(`${user.name} solicita nueva grúa`);
-    setIsLoading(true);
-    
-    // Simular proceso de solicitud
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log('Solicitud procesada');
-      // Aquí iría la navegación real a RequestTowScreen
-    }, 2000);
-  }, [user.name, setIsLoading]);
+    navigation.navigate('Servicios');
+  }, [user.name, navigation]);
 
   const handleRate = useCallback(() => {
     console.log(`${user.name} va a calificar un servicio`);
-    // Navegación para puntuar
-    // Se podría usar el selectedService para precargar datos
+    //navegacion para puntuar
   }, [user.name]);
 
   const handleRecharge = useCallback(() => {
     if (selectedService) {
       console.log(`${user.name} está recargando: ${selectedService.name} por ${selectedService.price}`);
       
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        console.log('Servicio recargado exitosamente');
-        // Aquí iría la navegación a RequestTowScreen con datos precargados
-      }, 1500);
+      //navegar a Servicios con servicio precargado
+      navigation.navigate('Servicios', {
+        preselectedService: selectedService
+      });
     } else {
       console.log('No hay servicio seleccionado para recargar');
+      //si no hay servicio, navegar a Servicios normal
+      navigation.navigate('Servicios');
     }
-  }, [user.name, selectedService, setIsLoading]);
+  }, [user.name, selectedService, navigation]);
 
   const handleFilter = useCallback(() => {
     console.log(`${user.name} abre filtros de actividad`);
-    // Funcionalidad de filtro
+    //funcionalidad de filtro
   }, [user.name]);
 
   const handleServiceDetails = useCallback((serviceId) => {
     console.log(`${user.name} ve detalles del servicio: ${serviceId}`);
-    // Navegación a detalles del servicio
+    //navegacion a detalles del servicio
   }, [user.name]);
 
   return {

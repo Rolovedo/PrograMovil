@@ -21,9 +21,9 @@ export default function LogoutButton({ styles }) {
           onPress: async () => {
             try {
               await signOut();
-              console.log('✅ Sesión cerrada exitosamente');
+              console.log('Sesion cerrada exitosamente');
             } catch (error) {
-              console.error('❌ Error cerrando sesión:', error);
+              console.error('Error cerrando sesión:', error);
               Alert.alert('Error', 'No se pudo cerrar la sesión');
             }
           },

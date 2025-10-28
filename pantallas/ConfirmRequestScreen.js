@@ -4,14 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { confirmRequestScreenStyles as styles } from '../styles/confirmRequestScreenStyle';
 import { useTowService } from '../hooks/useTowService';
 
-// Importar componentes modulares
+//componentes modulares
 import ConfirmHeader from '../components/confirmRequest/ConfirmHeader';
 import ServiceSummaryCard from '../components/confirmRequest/ServiceSummaryCard';
 import PriceCard from '../components/confirmRequest/PriceCard';
 import TermsCard from '../components/confirmRequest/TermsCard';
 import ActionButtons from '../components/confirmRequest/ActionButtons';
 
-// Importar hook personalizado
+//hook personalizado
 import { useConfirmRequestActions } from '../hooks/useConfirmRequestActions';
 
 export default function ConfirmRequestScreen({ navigation, route }) {

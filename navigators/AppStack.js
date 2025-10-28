@@ -5,15 +5,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 
-// Importar hook de roles
+//hook de roles
 import { useUserRole } from '../hooks/useUserRole';
 
-// Importar navegadores
+//navegadores
 import DriverTabs from './DriverTabs';
 
-// Importar pantallas
+//pantallas
 import HomeScreen from '../pantallas/HomeScreen';
-import RequestTowScreen from '../pantallas/RequestTowScreen';
 import TowDetailsScreen from '../pantallas/TowDetailsScreen';
 import ConfirmRequestScreen from '../pantallas/ConfirmRequestScreen';
 import TrackTowScreen from '../pantallas/TrackTowScreen';
@@ -23,8 +22,6 @@ import ServiciosScreen from '../pantallas/ServiciosScreen';
 import ActividadScreen from '../pantallas/ActividadScreen';
 import SettingsScreen from '../pantallas/SettingsScreen';
 import LoadingScreen from '../pantallas/LoadingScreen';
-
-// ✅ AGREGAR: Importar LocationSelectorScreen
 import LocationSelectorScreen from '../pantallas/LocationSelectorScreen';
 
 const Tab = createBottomTabNavigator();
@@ -35,7 +32,6 @@ function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeMain" component={HomeScreen} />
-      <Stack.Screen name="RequestTowScreen" component={RequestTowScreen} />
       <Stack.Screen name="LocationSelectorScreen" component={LocationSelectorScreen} />
       <Stack.Screen name="TowDetailsScreen" component={TowDetailsScreen} />
       <Stack.Screen name="ConfirmRequestScreen" component={ConfirmRequestScreen} />
@@ -59,6 +55,12 @@ function ActividadStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ActividadMain" component={ActividadScreen} />
+      <Stack.Screen name="Servicios" component={ServiciosScreen} />
+      <Stack.Screen name="LocationSelectorScreen" component={LocationSelectorScreen} />
+      <Stack.Screen name="TowDetailsScreen" component={TowDetailsScreen} />
+      <Stack.Screen name="ConfirmRequestScreen" component={ConfirmRequestScreen} />
+      <Stack.Screen name="TrackTowScreen" component={TrackTowScreen} />
+      <Stack.Screen name="TowCompletedScreen" component={TowCompletedScreen} />
     </Stack.Navigator>
   );
 }

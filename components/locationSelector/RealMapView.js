@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View } from 'react-native';
 
 //importar utilidades
 import { RouteCalculator } from '../../utils/routeCalculator';
 import { MapHelpers } from '../../utils/mapHelpers';
+import { LocationUtils } from '../../utils/locationUtils';
 
 //importar componentes modulares
 import OriginMarker from './markers/OriginMarker';
@@ -20,7 +20,6 @@ export default function RealMapView({
   destinationLocation, 
   onMapPress, 
   loading,
-  styles,
   onRouteCalculated
 }) {
   const [mapReady, setMapReady] = useState(false);
@@ -90,13 +89,12 @@ export default function RealMapView({
 
     console.log('Centrando en ubicación actual:', currentLocation);
 
-    //crear region centrada en la ubicacion actual
-    const region = {
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-      latitudeDelta: 0.01, //cercania del zoom
-      longitudeDelta: 0.01,
-    };
+    //usar LocationUtils para crear region
+    const region = LocationUtils.createMapRegion(
+      currentLocation.latitude, 
+      currentLocation.longitude, 
+      0.01
+    );
 
     //animar hacia la ubicación actual
     mapRef.current.animateToRegion(region, 1000); //duracion 1000ms
@@ -204,6 +202,7 @@ export default function RealMapView({
           routeInfo={routeInfo} 
         />
         <MapControls 
+          currentLocation={currentLocation}
           routeCoordinates={routeCoordinates}
           onCenterLocation={handleCenterLocation}
           onFitToRoute={handleFitToRoute}
