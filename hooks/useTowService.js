@@ -7,52 +7,62 @@ export const useTowService = () => {
   const [error, setError] = useState(null);
   const { user } = useAuth();
 
-  const createRequest = useCallback(async (formData, serviceType, urgency, price) => {
-    try {
-      console.log('📝 Creando solicitud en Supabase:', {
-        serviceType,
-        urgency,
-        price,
-        telefono: formData.telefono
-      });
+  const createRequest = useCallback(
+    async (formData, serviceType, urgency, price) => {
+      setLoading(true);
+      setError(null);
+      try {
+        if (!user?.id) {
+          throw new Error('Debes iniciar sesión para crear una solicitud');
+        }
 
-      // ✅ Crear objeto de solicitud sin towType
-      const requestData = {
-        user_id: user?.id,
-        service_type: serviceType,
-        origin: formData.origen,
-        destination: formData.destino,
-        phone: formData.telefono,
-        urgency: urgency,
-        price: price,
-        status: 'pending',
-        distance: formData.distance || null,
-        estimated_duration: formData.estimatedDuration || null,
-        observations: formData.observaciones || null,
-        created_at: new Date().toISOString(),
-      };
+        console.log('📝 Validando datos de la solicitud:', {
+          serviceType,
+          urgency,
+          price,
+          telefono: formData.telefono,
+        });
 
-      const { data, error } = await supabase
-        .from('tow_requests') // O el nombre de tu tabla
-        .insert([requestData])
-        .select()
-        .single();
+        // Validar campos requeridos
+        if (!formData.telefono) throw new Error('Se requiere un número de teléfono');
+        if (!formData.origen) throw new Error('Se requiere dirección de origen');
+        if (!formData.destino) throw new Error('Se requiere dirección de destino');
+        if (!price) throw new Error('Se requiere especificar el precio');
 
-      if (error) throw error;
+        const requestData = createTowRequestData(
+          {
+            origen: formData.origen,
+            destino: formData.destino,
+            telefono: formData.telefono,
+            tipoVehiculo: formData.tipoVehiculo,
+            observaciones: formData.observaciones,
+          },
+          serviceType,
+          urgency,
+          price,
+          user.id
+        );
 
-      console.log('✅ Solicitud creada exitosamente:', data);
-      return data;
+        // Delegar la inserción a TowService.createTowRequest
+        const data = await TowService.createTowRequest(requestData);
 
-    } catch (error) {
-      console.error('❌ Error creando solicitud:', error);
-      throw error;
-    }
-  }, [user]);
+        console.log('✅ Solicitud creada (useTowService):', data.id);
+        return data;
+      } catch (err) {
+        console.error('❌ Error creando solicitud (useTowService):', err);
+        setError(err.message || String(err));
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [user]
+  );
 
   const updateRequestStatus = async (requestId, status, driverInfo = null) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await TowService.updateRequestStatus(requestId, status, driverInfo);
       return result;
@@ -67,7 +77,7 @@ export const useTowService = () => {
   const getUserRequests = async (userId) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const requests = await TowService.getUserRequests(userId);
       return requests;
@@ -82,7 +92,7 @@ export const useTowService = () => {
   const getRequestById = async (requestId) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const request = await TowService.getRequestById(requestId);
       return request;
@@ -97,7 +107,7 @@ export const useTowService = () => {
   const getRequestsByStatus = async (status) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await TowService.getRequestsByStatus(status);
       return result;
@@ -112,7 +122,7 @@ export const useTowService = () => {
   const getAllRequests = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await TowService.getAllRequests();
       return result;
@@ -127,7 +137,7 @@ export const useTowService = () => {
   const getAvailableDrivers = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await TowService.getAvailableDrivers();
       return result;
@@ -142,7 +152,7 @@ export const useTowService = () => {
   const assignDriver = async (requestId, driverId) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await TowService.assignDriver(requestId, driverId);
       return result;
@@ -169,6 +179,6 @@ export const useTowService = () => {
     getAllRequests,
     getAvailableDrivers,
     assignDriver,
-    subscribeToRequests
+    subscribeToRequests,
   };
 };

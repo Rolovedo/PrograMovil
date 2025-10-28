@@ -5,6 +5,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 
+// Importar hook de roles
+import { useUserRole } from '../hooks/useUserRole';
+
+// Importar navegadores
+import DriverTabs from './DriverTabs';
+
 // Importar pantallas
 import HomeScreen from '../pantallas/HomeScreen';
 import RequestTowScreen from '../pantallas/RequestTowScreen';
@@ -16,6 +22,7 @@ import UsuarioScreen from '../pantallas/UsuarioScreen';
 import ServiciosScreen from '../pantallas/ServiciosScreen';
 import ActividadScreen from '../pantallas/ActividadScreen';
 import SettingsScreen from '../pantallas/SettingsScreen';
+import LoadingScreen from '../pantallas/LoadingScreen';
 
 // ✅ AGREGAR: Importar LocationSelectorScreen
 import LocationSelectorScreen from '../pantallas/LocationSelectorScreen';
@@ -66,15 +73,13 @@ function UsuarioStack() {
   );
 }
 
-// Navegador principal con tabs
-export default function AppStack() {
+// Navegación para clientes
+function ClientTabs() {
   const insets = useSafeAreaInsets();
-  
-  // ✅ Calcular altura total de la barra de navegación
   const tabBarHeight = Platform.OS === 'android' ? 60 + insets.bottom + 5 : 65;
 
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
       initialRouteName="Inicio"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -82,8 +87,6 @@ export default function AppStack() {
 
           if (route.name === 'Inicio') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Servicios') {
-            iconName = focused ? 'tow-truck' : 'tow-truck';
           } else if (route.name === 'Actividad') {
             iconName = focused ? 'history' : 'history';
           } else if (route.name === 'Usuario') {
@@ -109,30 +112,35 @@ export default function AppStack() {
         },
         headerShown: false,
         contentStyle: {
-          paddingBottom: 0, 
+          paddingBottom: 0,
         },
       })}
     >
-      <Tab.Screen 
-        name="Inicio" 
-        component={HomeStack} 
-        options={{ title: 'Inicio' }} 
-      />
-      <Tab.Screen 
+      <Tab.Screen name="Inicio" component={HomeStack} options={{ title: 'Inicio' }} />
+      {/*       <Tab.Screen 
         name="Servicios" 
         component={ServiciosStack} 
         options={{ title: 'Servicios' }} 
-      />
-      <Tab.Screen 
-        name="Actividad" 
-        component={ActividadStack} 
-        options={{ title: 'Actividad' }} 
-      />
-      <Tab.Screen 
-        name="Usuario" 
-        component={UsuarioStack} 
-        options={{ title: 'Usuario' }} 
-      />
+      /> */}
+      <Tab.Screen name="Actividad" component={ActividadStack} options={{ title: 'Actividad' }} />
+      <Tab.Screen name="Usuario" component={UsuarioStack} options={{ title: 'Usuario' }} />
     </Tab.Navigator>
   );
+}
+
+// Navegador principal con navegación condicional basada en roles
+export default function AppStack() {
+  const { role, loading } = useUserRole();
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  // Mostrar navegación según el rol
+  if (role === 'driver') {
+    return <DriverTabs />;
+  }
+
+  // Por defecto, mostrar navegación de cliente
+  return <ClientTabs />;
 }
